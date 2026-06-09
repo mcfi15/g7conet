@@ -71,7 +71,13 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title"><a href="{{ route('product.view', $review->product->slug) }}">{{ Str::limit($review?->product?->translate->name, 25) }}</a></h4>
+                                                        <h4 class="crancy-table__product-title">
+                                                            @if ($review?->product)
+                                                                <a href="{{ route('product.view', $review->product->slug) }}">{{ Str::limit($review->product->translate->name, 25) }}</a>
+                                                            @else
+                                                                <span class="text-muted">{{ __('translate.Deleted') }}</span>
+                                                            @endif
+                                                        </h4>
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
