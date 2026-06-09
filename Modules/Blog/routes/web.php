@@ -5,7 +5,7 @@ use Modules\Blog\App\Http\Controllers\BlogController;
 use Modules\Blog\App\Http\Controllers\BlogCategoryController;
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin/cms', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix').'/cms', 'middleware' => ['auth:admin']], function () {
     Route::resource('blog', BlogController::class)->names('blog');
     Route::resource('blog-category', BlogCategoryController::class)->names('blog-category');
 

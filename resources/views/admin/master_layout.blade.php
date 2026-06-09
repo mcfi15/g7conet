@@ -209,6 +209,10 @@
 
 
         <script>
+            var ADMIN_PREFIX = "{{ config('admin.prefix') }}";
+        </script>
+
+        <script>
             (function($) {
                 "use strict"
                 $(document).ready(function () {

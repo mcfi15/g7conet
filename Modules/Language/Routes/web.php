@@ -5,7 +5,7 @@ use Modules\Language\App\Http\Controllers\LanguageController;
 
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
 
     Route::resource('language', LanguageController::class)->names('language');
     Route::get('theme-language', [LanguageController::class, 'theme_language'])->name('theme-language');

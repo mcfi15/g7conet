@@ -14,7 +14,7 @@ use Modules\Testimonial\App\Http\Controllers\TestimonialController;
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
 
     Route::resource('testimonial', TestimonialController::class)->names('testimonial');
 

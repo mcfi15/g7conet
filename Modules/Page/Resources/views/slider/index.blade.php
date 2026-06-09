@@ -131,7 +131,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/slider/delete") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/slider/delete') }}'+"/"+id)
         }
 
         function manageStatus(id){

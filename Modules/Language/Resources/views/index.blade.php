@@ -154,7 +154,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/language/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/language/') }}'+"/"+id)
         }
     </script>
 @endpush

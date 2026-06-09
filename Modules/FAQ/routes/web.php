@@ -5,6 +5,6 @@ use Modules\FAQ\App\Http\Controllers\FAQController;
 
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
     Route::resource('faq', FAQController::class)->names('faq');
 });

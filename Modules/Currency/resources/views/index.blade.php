@@ -172,7 +172,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/multi-currency/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/multi-currency/') }}'+"/"+id)
         }
     </script>
 @endpush

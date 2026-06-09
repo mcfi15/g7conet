@@ -15,7 +15,7 @@ use Modules\Currency\App\Http\Controllers\CurrencyController;
 */
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
 
     Route::resource('multi-currency', CurrencyController::class)->names('multi-currency');
 });

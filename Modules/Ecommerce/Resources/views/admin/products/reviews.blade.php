@@ -138,7 +138,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/listing/review-delete/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/listing/review-delete/') }}'+"/"+id)
         }
     </script>
 @endpush

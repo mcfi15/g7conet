@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\EmailSetting\App\Http\Controllers\EmailSettingController;
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
     Route::get('email-setting', [EmailSettingController::class, 'index'])->name('email-setting');
     Route::put('update-email-setting', [EmailSettingController::class, 'update'])->name('update-email-setting');
 

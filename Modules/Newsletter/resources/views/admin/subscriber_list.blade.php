@@ -126,7 +126,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/newsletter-delete/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/newsletter-delete/') }}'+"/"+id)
         }
     </script>
 @endpush

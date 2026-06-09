@@ -19,7 +19,7 @@ use Modules\Page\App\Http\Controllers\TermsConditiondController;
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
     Route::get('terms-conditions', [TermsConditiondController::class, 'index'])->name('terms-conditions');
     Route::put('update-terms-conditions', [TermsConditiondController::class, 'update'])->name('update-terms-conditions');
 

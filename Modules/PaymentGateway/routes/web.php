@@ -16,7 +16,7 @@ use Modules\PaymentGateway\App\Http\Controllers\PaymentGatewayController;
 
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']],function (){
 
     Route::get('paymentgateway', [PaymentGatewayController::class, 'index'])->name('paymentgateway');
     Route::put('update-stripe', [PaymentGatewayController::class, 'update_stripe'])->name('update-stripe');

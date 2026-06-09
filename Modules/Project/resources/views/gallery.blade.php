@@ -166,7 +166,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/delete-project-gallery/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/delete-project-gallery/') }}'+"/"+id)
         }
     </script>
 

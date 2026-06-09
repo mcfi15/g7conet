@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
         $guard=Arr::get($exception->guards(),'0');
         switch($guard){
             case 'admin':
-                $login="/admin/login";
+                $login="/".config('admin.prefix')."/login";
             break;
 
             default:

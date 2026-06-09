@@ -14,7 +14,7 @@ use Modules\GlobalSetting\App\Http\Controllers\GlobalSettingController;
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
 
     Route::controller(GlobalSettingController::class)->group(function(){
         Route::group(['prefix' => 'configuration'],function (){

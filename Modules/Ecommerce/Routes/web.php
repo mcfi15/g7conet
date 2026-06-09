@@ -11,7 +11,7 @@ use Modules\Ecommerce\Http\Controllers\ProductController as PublicProductControl
 use Modules\Ecommerce\Http\Controllers\UserOrderController;
 use Modules\Ecommerce\Http\Controllers\UserPaypalController;
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin/ecommerce', 'middleware' => ['MaintenanceMode','auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix').'/ecommerce', 'middleware' => ['MaintenanceMode','auth:admin']], function () {
     Route::prefix('product')->controller(ProductController::class)->name('product.')->group(function () {
         Route::get('/','index')->name('index');
         Route::get('create','create')->name('create');

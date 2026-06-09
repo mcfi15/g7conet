@@ -22,7 +22,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']], function () {
 
     Route::get('newsletter-list', [AdminNewsletterController::class, 'index'])->name('newsletter-list');
     Route::delete('newsletter-delete/{id}', [AdminNewsletterController::class, 'destroy'])->name('newsletter-delete');

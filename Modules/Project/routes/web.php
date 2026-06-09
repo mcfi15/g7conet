@@ -14,7 +14,7 @@ use Modules\Project\App\Http\Controllers\ProjectController;
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']],function (){
     // Project Route
     Route::resource('project', ProjectController::class)->names('project');
     // Project Gallery Route

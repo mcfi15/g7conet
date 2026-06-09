@@ -161,7 +161,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/cms/delete-blog-comment/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/cms/delete-blog-comment/') }}'+"/"+id)
         }
 
         function manageStatus(id){
@@ -174,7 +174,7 @@
             $.ajax({
                 type:"put",
                 data: { _token : '{{ csrf_token() }}' },
-                url:"{{url('/admin/cms/blog-comment-status/') }}"+"/"+id,
+                url:"{{url('/'.config('admin.prefix').'/cms/blog-comment-status/') }}"+"/"+id,
                 success:function(response){
                     toastr.success(response)
                 },

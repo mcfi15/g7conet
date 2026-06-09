@@ -148,7 +148,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/ecommerce/product/delete-gallery/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/ecommerce/product/delete-gallery/') }}'+"/"+id)
         }
     </script>
 

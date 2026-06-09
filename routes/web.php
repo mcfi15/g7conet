@@ -95,12 +95,12 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
 
 });
 
-Route::get('admin', function() {
+Route::get(config('admin.prefix'), function() {
     return null;
 })->middleware('admin.redirect');
 
 /* Admin Code */
-Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['admin.secret']],function (){
     Route::get('login', [LoginController::class, 'custom_login_page'])->name('login');
     Route::post('store-login', [LoginController::class, 'store_login'])->name('store-login');
     Route::post('store-register', [LoginController::class, 'store_register'])->name('store-register');

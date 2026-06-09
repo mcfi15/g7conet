@@ -448,15 +448,15 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url("admin/user-delete/") }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url(config('admin.prefix').'/user-delete/') }}' + "/" + id)
         }
 
         function orderDeleteConfrimation(id) {
-            $("#item_delect_confirmation").attr("action", '{{ url("admin/order-delete/") }}' + "/" + id)
+            $("#item_delect_confirmation").attr("action", '{{ url(config('admin.prefix').'/order-delete/') }}' + "/" + id)
         }
 
         function feezConfrimation(id) {
-            $("#feez_confirmation").attr("action", '{{ url("admin/feez-profile/") }}' + "/" + id)
+            $("#feez_confirmation").attr("action", '{{ url(config('admin.prefix').'/feez-profile/') }}' + "/" + id)
         }
 
 
@@ -471,7 +471,7 @@
             $.ajax({
                 type: "put",
                 data: { _token: '{{ csrf_token() }}' },
-                url: "{{url('/admin/user-status/') }}" + "/" + id,
+                url: "{{url('/'.config('admin.prefix').'/user-status/') }}" + "/" + id,
                 success: function (response) {
                     toastr.success(response)
                 },

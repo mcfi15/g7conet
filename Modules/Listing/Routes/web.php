@@ -3,7 +3,7 @@
 use Modules\Listing\Http\Controllers\ListingController;
 
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin/listing', 'middleware' => ['auth:admin']],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix').'/listing', 'middleware' => ['auth:admin']],function (){
 
     Route::resource('listings', ListingController::class);
 

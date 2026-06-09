@@ -147,7 +147,7 @@
     <script>
         "use strict"
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/ecommerce/shipping-method/delete") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/ecommerce/shipping-method/delete') }}'+"/"+id)
         }
 
         function manageStatus(id){
@@ -160,7 +160,7 @@
             $.ajax({
                 type:"put",
                 data: { _token : '{{ csrf_token() }}' },
-                url:"{{url('/admin/ecommerce/shipping-method/status/') }}"+"/"+id,
+                url:"{{url('/'.config('admin.prefix').'/ecommerce/shipping-method/status/') }}"+"/"+id,
                 success:function(response){
                     toastr.success(response)
                 },

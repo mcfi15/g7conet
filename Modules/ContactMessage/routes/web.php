@@ -15,7 +15,7 @@ use Modules\ContactMessage\App\Http\Controllers\Frontend\ContactMessageControlle
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']],function (){
 
     Route::controller(ContactMessageController::class)->group(function () {
         Route::get('contact-message', 'contact_message')->name('contact-message');

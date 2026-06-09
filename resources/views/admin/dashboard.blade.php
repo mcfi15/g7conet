@@ -448,7 +448,7 @@
         });
 
         function itemDeleteConfrimation(id){
-            $("#item_delect_confirmation").attr("action",'{{ url("admin/order-delete/") }}'+"/"+id)
+            $("#item_delect_confirmation").attr("action",'{{ url(config('admin.prefix').'/order-delete/') }}'+"/"+id)
         }
 
     </script>

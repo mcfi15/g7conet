@@ -14,6 +14,6 @@ use Modules\Team\App\Http\Controllers\TeamController;
 |
 */
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin']],function (){
+Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' => ['auth:admin']],function (){
     Route::resource('team', TeamController::class)->names('team');
 });
