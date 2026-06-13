@@ -18,7 +18,95 @@
     <meta name="keyword" content="{{ $tags }}">
 @endsection
 
+
+
 @section('content')
+
+<style>
+    /* Restore TinyMCE / rich-text content styling */
+    .entry-content ul,
+    .entry-content ol {
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+        list-style: revert; /* ← key fix for bullets disappearing */
+    }
+
+    .entry-content ul {
+        list-style-type: disc;
+    }
+
+    .entry-content ol {
+        list-style-type: decimal;
+    }
+
+    .entry-content li {
+        margin-bottom: 0.4rem;
+        display: list-item; /* override any flex/grid resets */
+    }
+
+    .entry-content h1, .entry-content h2,
+    .entry-content h3, .entry-content h4,
+    .entry-content h5, .entry-content h6 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .entry-content blockquote {
+        border-left: 4px solid #ccc;
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        color: #666;
+        font-style: italic;
+    }
+
+    .entry-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+
+    .entry-content table th,
+    .entry-content table td {
+        border: 1px solid #ddd;
+        padding: 0.6rem 0.8rem;
+        text-align: left;
+    }
+
+    .entry-content table thead {
+        background-color: #f4f4f4;
+        font-weight: 700;
+    }
+
+    .entry-content pre,
+    .entry-content code {
+        background: #f4f4f4;
+        border-radius: 4px;
+        padding: 0.2em 0.4em;
+        font-family: monospace;
+        font-size: 0.9em;
+    }
+
+    .entry-content pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    .entry-content strong { font-weight: 700; }
+    .entry-content em     { font-style: italic; }
+
+    .entry-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .entry-content a {
+        color: inherit;
+        text-decoration: underline;
+    }
+</style>
+
 <!-- Main Start -->
 <div class="optech-breadcrumb" style="background-image: url({{ asset($general_setting->breadcrumb_image) }})">
     <div class="container">
@@ -50,9 +138,7 @@
                         </ul>
                     </div>
                     <div class="entry-content">
-                        <p>
-                            {!! clean($blog->translate?->description) !!}
-                        </p>
+                        {!! clean($blog->translate?->description) !!}
 
                         <div class="optech-single-post-tag-wrap">
                             <div class="optech-blog-tags">

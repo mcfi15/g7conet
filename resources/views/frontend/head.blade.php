@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <!-- End google font  -->
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">

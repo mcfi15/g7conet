@@ -199,3 +199,167 @@
 .optech-service-details-item h4 {
     margin-bottom: 10px;
 }
+.optech-service-details-item table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    display: block;
+}
+.optech-service-details-item table th,
+.optech-service-details-item table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+.optech-service-details-item table th {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    text-align: left;
+}
+.optech-service-details-item table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.optech-service-details-item pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+.optech-service-details-item code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+.optech-service-details-item pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+.optech-service-details-item hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 25px 0;
+}
+
+/* Blog detail entry-content typography */
+.entry-content {
+    line-height: 1.8;
+    color: #333;
+}
+.entry-content p {
+    margin-bottom: 15px;
+}
+.entry-content em,
+.entry-content i {
+    font-style: italic;
+}
+.entry-content strong,
+.entry-content b {
+    font-weight: 700;
+}
+.entry-content u {
+    text-decoration: underline;
+}
+.entry-content ul,
+.entry-content ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+.entry-content ul {
+    list-style: disc;
+}
+.entry-content ul ul {
+    list-style: circle;
+}
+.entry-content ol {
+    list-style: decimal;
+}
+.entry-content li {
+    margin-bottom: 5px;
+}
+.entry-content blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 15px;
+    margin: 15px 0;
+    font-style: italic;
+    color: #666;
+}
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.entry-content a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+}
+.entry-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    display: block;
+}
+.entry-content table th,
+.entry-content table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+.entry-content table th {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    text-align: left;
+}
+.entry-content table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.entry-content pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+.entry-content code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+.entry-content pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+.entry-content hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 25px 0;
+}
+.entry-content sub {
+    vertical-align: sub;
+    font-size: smaller;
+}
+.entry-content sup {
+    vertical-align: super;
+    font-size: smaller;
+}

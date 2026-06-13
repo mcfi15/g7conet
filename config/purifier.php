@@ -24,11 +24,15 @@ return [
     'cacheFileMode'      => 0755,
     'settings'      => [
         'default' => [
-            'HTML.Doctype'             => 'HTML 4.01 Transitional',
-            'HTML.Allowed'             => 'h1,h2,h3,h4,h5,h6,div,b,strong,i,em,u,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src]',
-            'CSS.AllowedProperties'    => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
-            'AutoFormat.AutoParagraph' => true,
-            'AutoFormat.RemoveEmpty'   => true,
+            'HTML.Doctype'             => 'XHTML 1.0 Transitional',
+            'HTML.Allowed'             => 'h1,h2,h3,h4,h5,h6,div,b,strong,i,em,u,a[href|title|target],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|class],table[style|width|height|border|cellpadding|cellspacing|class],caption,colgroup,col[span],thead,tbody,tfoot,tr[style],th[style|width|height|colspan|rowspan|scope|class],td[style|width|height|colspan|rowspan|class],blockquote[cite],pre,code,sub,sup,hr,figure,figcaption,s,mark,ins,del,small,abbr[title],dfn[title]',
+            'CSS.AllowedProperties'    => 'font,font-size,font-weight,font-style,font-family,text-decoration,color,background-color,text-align,width,height,max-width,margin,margin-left,margin-right,margin-top,margin-bottom,padding,padding-left,padding-right,padding-top,padding-bottom,border,border-collapse,border-spacing,border-color,border-style,border-width,background,background-image,background-color,vertical-align,list-style-type,list-style,float,line-height,letter-spacing,word-spacing,white-space,border-radius,opacity,text-transform,text-indent',
+            'AutoFormat.AutoParagraph' => false,
+            'AutoFormat.RemoveEmpty'   => false,
+            'HTML.SafeObject'          => false,
+            'Output.FlashCompat'       => false,
+            'CSS.AllowTricky'          => true,
+            'CSS.Proprietary'          => true,
         ],
         'test'    => [
             'Attr.EnableID' => 'true',
