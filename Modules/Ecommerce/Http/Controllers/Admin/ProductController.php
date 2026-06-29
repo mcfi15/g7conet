@@ -6,7 +6,10 @@ use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
+use Modules\Ecommerce\Entities\Digital\ProductFile;
+use Modules\Ecommerce\Entities\Digital\ProductUpdate;
 use Modules\Brand\Entities\Brand;
 use Modules\Category\Entities\Category;
 use Modules\Ecommerce\Entities\Product;
@@ -38,17 +41,42 @@ class ProductController extends Controller
 
     public function store(Request $request, $id = null)
     {
-       $request->validate([
+       $rules = [
            'name' => 'required|string|max:255',
            'slug' => 'required|string|unique:products,slug,' . $id . '|max:255',
            'price' => 'required|numeric|min:0',
            'offer_price' => 'nullable|numeric|min:0|lt:price|max:100',
            'description' => 'required|string',
            'category_id' => 'required|exists:categories,id',
+           'brand_id' => 'nullable|exists:brands,id',
            'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
            'seo_title' => 'nullable|string|max:255',
            'seo_description' => 'nullable|string|max:500',
-       ]);
+           'product_type' => 'required|string|in:physical,script,ebook',
+           'license_type' => 'nullable|string|in:none,regular,extended,both',
+           'regular_price' => 'nullable|numeric|min:0',
+           'extended_price' => 'nullable|numeric|min:0',
+           'demo_url' => 'nullable|url|max:500',
+           'download_limit' => 'nullable|integer|min:0',
+           'update_support_months' => 'nullable|integer|min:0|max:120',
+           'file_access' => 'nullable|string|in:order,email',
+           'product_file' => 'nullable|file|max:512000',
+           'file_version' => 'nullable|string|max:50',
+           'file_changelog' => 'nullable|string|max:2000',
+       ];
+
+if ($request->product_type === 'script') {
+            $rules['product_file'] = 'nullable|file|max:512000';
+        } elseif ($request->product_type === 'ebook') {
+            $rules['product_file'] = 'nullable|file|mimes:pdf,zip,epub|max:512000';
+        } elseif ($request->product_type === 'physical') {
+            $rules['product_file'] = 'nullable|file|max:512000';
+            $rules['offer_price'] = 'nullable|numeric|min:0|max:100';
+        }
+
+        $request->validate($rules);
+
+
 
         // Check if we are creating a new product or updating an existing one
         $product = $id ? Product::findOrFail($id) : new Product();
@@ -57,8 +85,36 @@ class ProductController extends Controller
         $product->tags = $request->tags;
         $product->offer_price = $request->filled('offer_price') ? $request->offer_price : null;
         $product->category_id = $request->category_id;
-        $product->brand_id = $request->brand_id;
+        $product->brand_id = $request->filled('brand_id') ? $request->brand_id : null;
         $product->status = Status::ENABLE;
+
+        // Product type and digital fields
+        $product->product_type = $request->product_type ?? 'physical';
+        if ($product->product_type === 'script') {
+            $product->license_type = $request->license_type ?? 'none';
+            $product->regular_price = $request->regular_price ?: null;
+            $product->extended_price = $request->extended_price ?: null;
+            $product->demo_url = $request->demo_url ?: null;
+            $product->download_limit = $request->download_limit ?: null;
+            $product->update_support_months = $request->update_support_months ?: null;
+            $product->file_access = $request->file_access ?? 'order';
+        } elseif ($product->product_type === 'ebook') {
+            $product->license_type = 'none';
+            $product->regular_price = null;
+            $product->extended_price = null;
+            $product->demo_url = null;
+            $product->download_limit = $request->download_limit ?: null;
+            $product->update_support_months = null;
+            $product->file_access = 'order';
+        } else {
+            $product->license_type = 'none';
+            $product->regular_price = null;
+            $product->extended_price = null;
+            $product->demo_url = null;
+            $product->download_limit = null;
+            $product->update_support_months = null;
+            $product->file_access = 'order';
+        }
 
         // Handle image upload and watermarking
         if ($request->hasFile('thumbnail_image')) {
@@ -84,6 +140,38 @@ class ProductController extends Controller
         }
 
         $product->save();
+
+        // Handle inline file upload for digital products
+        \Log::debug('Store - product_type: ' . $product->product_type . ' | hasFile: ' . ($request->hasFile('product_file') ? 'yes' : 'no') . ' | file: ' . ($request->file('product_file') ? $request->file('product_file')->getClientOriginalName() : 'none') . ' | product id: ' . $product->id);
+        if (in_array($product->product_type, ['script', 'ebook']) && $request->hasFile('product_file')) {
+            $file = $request->file('product_file');
+            $version = $request->file_version ?? '1.0.0';
+
+            $product->files()->update(['is_current' => false]);
+
+            $path = 'digital-products/' . $product->id . '/v' . $version;
+            $storedPath = \Illuminate\Support\Facades\Storage::disk('local')->putFileAs($path, $file, $file->getClientOriginalName());
+
+            $pf = \Modules\Ecommerce\Entities\Digital\ProductFile::create([
+                'product_id' => $product->id,
+                'file_name' => $file->getClientOriginalName(),
+                'file_path' => $storedPath,
+                'file_size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'file_hash' => hash_file('sha256', $file->getRealPath()),
+                'version' => $version,
+                'is_current' => true,
+            ]);
+
+            if ($request->filled('file_changelog')) {
+                \Modules\Ecommerce\Entities\Digital\ProductUpdate::create([
+                    'product_id' => $product->id,
+                    'file_id' => $pf->id,
+                    'version' => $version,
+                    'changelog' => $request->file_changelog,
+                ]);
+            }
+        }
 
         // Handle product translations
         $languages = Language::all();
@@ -123,17 +211,28 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
 
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-        ]);
+            'product_type' => 'required|string|in:physical,script,ebook',
+        ];
 
-        $listing = Product::findOrFail($id);
+        if ($request->product_type === 'script') {
+            $rules['product_file'] = 'nullable|file|max:512000';
+        } elseif ($request->product_type === 'ebook') {
+            $rules['product_file'] = 'nullable|file|mimes:pdf,zip,epub|max:512000';
+        } else {
+            $rules['product_file'] = 'nullable|file|max:512000';
+        }
+
+        $request->validate($rules);
+
+        $listing = $product;
 
         if($request->lang_code == admin_lang()){
 
-                $product = Product::findOrFail($id);
                 $product->slug = $request->slug;
                 $product->price = $request->price;
                 $product->offer_price = $request->filled('offer_price') ? $request->offer_price : null;
@@ -141,6 +240,66 @@ class ProductController extends Controller
                 $product->brand_id = $request->brand_id;
                 $product->tags = $request->tags;
                 $product->status = Status::ENABLE;
+
+                // Product type and digital fields
+                $product->product_type = $request->product_type ?? 'physical';
+                if ($product->product_type === 'script') {
+                    $product->license_type = $request->license_type ?? 'none';
+                    $product->regular_price = $request->regular_price ?: null;
+                    $product->extended_price = $request->extended_price ?: null;
+                    $product->demo_url = $request->demo_url ?: null;
+                    $product->download_limit = $request->download_limit ?: null;
+                    $product->update_support_months = $request->update_support_months ?: null;
+                    $product->file_access = $request->file_access ?? 'order';
+                } elseif ($product->product_type === 'ebook') {
+                    $product->license_type = 'none';
+                    $product->regular_price = null;
+                    $product->extended_price = null;
+                    $product->demo_url = null;
+                    $product->download_limit = $request->download_limit ?: null;
+                    $product->update_support_months = null;
+                    $product->file_access = 'order';
+                } else {
+                    $product->license_type = 'none';
+                    $product->regular_price = null;
+                    $product->extended_price = null;
+                    $product->demo_url = null;
+                    $product->download_limit = null;
+                    $product->update_support_months = null;
+                    $product->file_access = 'order';
+                }
+
+                // Handle inline file upload for digital products
+                \Log::debug('Update - product_type: ' . $product->product_type . ' | hasFile: ' . ($request->hasFile('product_file') ? 'yes' : 'no') . ' | file: ' . ($request->file('product_file') ? $request->file('product_file')->getClientOriginalName() : 'none') . ' | all files: ' . json_encode(array_keys($request->allFiles())) . ' | _FILES keys: ' . json_encode(array_keys($_FILES)) . ' | _FILES[product_file]: ' . json_encode($_FILES['product_file'] ?? 'NOT SET'));
+                if (in_array($product->product_type, ['script', 'ebook']) && $request->hasFile('product_file')) {
+                    $file = $request->file('product_file');
+                    $version = $request->file_version ?? '1.0.0';
+
+                    $product->files()->update(['is_current' => false]);
+
+                    $path = 'digital-products/' . $product->id . '/v' . $version;
+                    $storedPath = Storage::disk('local')->putFileAs($path, $file, $file->getClientOriginalName());
+
+                    $pf = ProductFile::create([
+                        'product_id' => $product->id,
+                        'file_name' => $file->getClientOriginalName(),
+                        'file_path' => $storedPath,
+                        'file_size' => $file->getSize(),
+                        'mime_type' => $file->getMimeType(),
+                        'file_hash' => hash_file('sha256', $file->getRealPath()),
+                        'version' => $version,
+                        'is_current' => true,
+                    ]);
+
+                    if ($request->filled('file_changelog')) {
+                        ProductUpdate::create([
+                            'product_id' => $product->id,
+                            'file_id' => $pf->id,
+                            'version' => $version,
+                            'changelog' => $request->file_changelog,
+                        ]);
+                    }
+                }
 
                 // Handle image upload and watermarking
                 if ($request->hasFile('thumbnail_image')) {

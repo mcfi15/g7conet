@@ -1,0 +1,11 @@
+{
+    "name": "QRCode",
+    "alias": "qrcode",
+    "description": "QR Code generator module for creating, customizing, and downloading QR codes",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\QRCode\\App\\Providers\\QRCodeServiceProvider"
+    ],
+    "files": []
+}

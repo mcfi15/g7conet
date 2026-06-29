@@ -71,7 +71,7 @@ class FrontEndManagementController extends Controller
         $lang_code = $request->get('lang_code');
 
         if (!$lang_code) {
-            return back()->with('error', 'Language code is required');
+            return back()->with('error', trans('translate.Language code is required'));
         }
 
         $jsonUrl = resource_path('views/admin/settings.json');

@@ -33,6 +33,26 @@ class Order extends Model
         return $this->belongsTo(ShippingMethod::class);
     }
 
+    public function licenses()
+    {
+        return $this->hasMany(\Modules\Ecommerce\Entities\Digital\License::class);
+    }
+
+    public function downloads()
+    {
+        return $this->hasMany(\Modules\Ecommerce\Entities\Digital\Download::class);
+    }
+
+    public function isDigital(): bool
+    {
+        return $this->type === 'digital';
+    }
+
+    public function isMixed(): bool
+    {
+        return $this->type === 'mixed';
+    }
+
     public function paymentBadge(): Attribute
     {
         return new Attribute(

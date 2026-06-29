@@ -48,6 +48,10 @@
                                             </th>
 
                                             <th class="crancy-table__column-2 crancy-table__h2 sorting" >
+                                                {{ __('translate.Type') }}
+                                            </th>
+
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting" >
                                                 {{ __('translate.Price') }}
                                             </th>
 
@@ -74,6 +78,12 @@
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
                                                     <h4 class="crancy-table__product-title">{{ Str::limit($product->translate->name, 20) }}</h4>
+                                                </td>
+
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <span class="cc-mini-type cc-type-{{ $product->product_type }}">
+                                                        {{ $product->product_type === 'script' ? __('translate.Script') : ($product->product_type === 'ebook' ? __('translate.eBook') : __('translate.Physical')) }}
+                                                    </span>
                                                 </td>
 
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
@@ -111,10 +121,18 @@
                                                                 </a>
                                                             </li>
 
+                                                            @if($product->isPhysical())
                                                             <li>
                                                                 <a href="{{ route('admin.product.gallery', $product->id) }}" class=" dropdown-item"><i class="fas fa-images"></i> {{ __('translate.Gallery') }}
                                                                 </a>
                                                             </li>
+                                                            @endif
+                                                            @if($product->is_digital)
+                                                            <li>
+                                                                <a href="{{ route('admin.product.files.index', $product->id) }}" class=" dropdown-item"><i class="fas fa-file-archive"></i> {{ __('translate.Files') }}
+                                                                </a>
+                                                            </li>
+                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -157,6 +175,15 @@
     </div>
 @endsection
 
+@push('style_section')
+    <style>
+        .cc-mini-type{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;display:inline-block}
+        .cc-type-physical{background:#e8f5e9;color:#2e7d32}
+        .cc-type-script{background:#e3f2fd;color:#1565c0}
+        .cc-type-ebook{background:#fce4ec;color:#c62828}
+    </style>
+@endpush
+
 @push('js_section')
     <script>
         "use strict"
@@ -167,7 +194,7 @@
         function manageStatus(id){
             var appMODE = "{{ env('APP_MODE') }}"
             if(appMODE == 'DEMO'){
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('{{ __('translate.This Is Demo Version. You Can Not Change Anything') }}');
                 return;
             }
 

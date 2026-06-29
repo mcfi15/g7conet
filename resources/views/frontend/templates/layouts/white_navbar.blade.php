@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="optech-header-info-right two">
-                    {{-- <div class="cur_lun_login_item">
+                    <div class="cur_lun_login_item">
                          <span>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -36,7 +36,7 @@
                                 @endforeach
                             </select>
                         </form>
-                    </div> --}}
+                    </div>
 
                     <div class="cur_lun_login_item">
                        <span>
@@ -56,7 +56,7 @@
                         </form>
 
                     </div>
-                    {{-- <div class="cur_lun_login_item">
+                    <div class="cur_lun_login_item">
                        <span>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -69,7 +69,7 @@
                         @else
                             <a href="{{ route('user.login') }}" class="login-btn">{{ __('translate.Login') }}</a>
                         @endauth
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,9 +90,9 @@
                 <div class="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
                     <div class="optech-header-icon">
 
-                        {{-- <div class="optech-header-search">
+                        <div class="optech-header-search">
                             <i class="ri-search-line"></i>
-                        </div> --}}
+                        </div>
 
                         @include('frontend.templates.layouts._cart')
 

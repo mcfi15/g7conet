@@ -597,7 +597,7 @@
             @endforeach
         </div>
         <div class="optech-center-btn">
-            <a class="optech-default-btn" href="{{ route('blogs') }}" data-text="View All Posts">
+            <a class="optech-default-btn" href="{{ route('blogs') }}" data-text="{{ __('translate.View All Posts') }}">
                 <span class="btn-wraper">
                     {{ getTranslatedValue($blogContent, 'button_text', $currentLang) }}
                 </span>
@@ -701,7 +701,7 @@
                             <form action="{{ route('store-newsletter') }}" method="POST">
                                 @csrf
                                 <input type="email" name="email" placeholder="{{ __('translate.Enter your email') }}">
-                                <button id="optech-subscription-btn" type="submit" data-text="Subscribe">
+                                <button id="optech-subscription-btn" type="submit" data-text="{{ __('translate.Subscribe') }}">
                                     <span class="btn-wraper">{{ __('translate.Subscribe') }}</span>
                                 </button>
                             </form>

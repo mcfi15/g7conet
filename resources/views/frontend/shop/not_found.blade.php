@@ -1,6 +1,4 @@
-<div class="col-xl-9 col-lg-8 col-md-7">
-    <!-- End section -->
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
         <div class="col-xxl-6  col-xl-8 col-lg-10">
             <div class="shop_not_found">
                 <div class="shop_not_found_thumb">
@@ -10,7 +8,7 @@
                     <h2>{{ __('translate.Search Not Found') }}</h2>
                     <p>
                         @if(request('query'))
-                            {{__('No results found for')}} "{{ request('query') }}
+                            {{ __('translate.No results found for') }} "{{ request('query') }}
                             ". {{ __('translate.Please try a different search term.') }}
                         @else
                             {{ __('translate.Not Found: It seems the saved search is no longer active.') }}
@@ -26,5 +24,4 @@
 
         </div>
     </div>
-    <!-- End section -->
-</div>
+

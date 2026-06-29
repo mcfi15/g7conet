@@ -157,7 +157,7 @@
 
 
                             <a class="optech-default-btn optech-header-btn" href="{{ route('contact-us') }}"
-                               data-text="Get in Touch"><span class="btn-wraper">{{ __('translate.Get in Touch') }}</span>
+                               data-text="{{ __('translate.Get in Touch') }}"><span class="btn-wraper">{{ __('translate.Get in Touch') }}</span>
                             </a>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
     <div class="optech-header-search-section">
         <div class="container">
             <div class="optech-header-search-box">
-                <input type="search" placeholder="Search here..." />
+                <input type="search" placeholder="{{ __('translate.Search here...') }}" />
                 <button id="header-search" type="button">
                     <i class="ri-search-line"></i>
                 </button>

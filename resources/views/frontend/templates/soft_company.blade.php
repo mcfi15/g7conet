@@ -705,7 +705,7 @@
                             <ul>
                                 <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a></li>
                                 <li><a href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a></li>
-                                <li><a href="{{ route('faq') }}">{{__('Faqs')}}</a></li>
+                                <li><a href="{{ route('faq') }}">{{__('translate.Faqs')}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -719,7 +719,7 @@
                                 <form action="{{ route('store-newsletter') }}" method="POST">
                                     @csrf
                                     <input type="email" name="email" placeholder="{{ __('translate.Enter your email') }}">
-                                    <button id="optech-subscription-btn" type="submit" data-text="Subscribe">
+                                    <button id="optech-subscription-btn" type="submit" data-text="{{ __('translate.Subscribe') }}">
                                         <span class="btn-wraper">{{ __('translate.Subscribe') }}</span>
                                     </button>
                                 </form>

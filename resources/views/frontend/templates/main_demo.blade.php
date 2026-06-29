@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="optech-header-info-right">
-                        {{-- <div class="cur_lun_login_item">
+                        <div class="cur_lun_login_item">
                         <span>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -39,7 +39,7 @@
                                     @endforeach
                                 </select>
                             </form>
-                        </div> --}}
+                        </div>
 
                         <div class="cur_lun_login_item">
                         <span>
@@ -59,7 +59,7 @@
                     </form>
 
                     </div>
-                    {{-- <div class="cur_lun_login_item">
+                    <div class="cur_lun_login_item">
                         <span>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -72,7 +72,7 @@
                         @else
                             <a href="{{ route('user.login') }}" class="login-btn">{{ __('translate.Login') }}</a>
                         @endauth
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,9 +92,9 @@
 
                         <div class="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
                             <div class="optech-header-icon">
-                                {{-- <div class="optech-header-search">
+                                <div class="optech-header-search">
                                     <i class="ri-search-line"></i>
-                                </div> --}}
+                                </div>
 
                                 @include('frontend.templates.layouts._cart')
 
@@ -118,7 +118,7 @@
             <div class="container">
                 <div class="optech-header-search-box">
                     <form id="searchForm" action="{{ route('product.search') }}" method="GET">
-                        <input type="search" name="query" placeholder="Search here..." id="searchInput">
+                        <input type="search" name="query" placeholder="{{ __('translate.Search here...') }}" id="searchInput">
                         <button id="header-search" type="button"><i class="ri-search-line"></i></button>
                         <p>{{ __('translate.Type above and press Enter to search. Press Close to cancel.') }}</p>
                     </form>
@@ -158,11 +158,11 @@
                             <div class="optech-btn-wrap">
                                 <a class="optech-default-btn"
                                     href="{{ url(@$contactUsContent->data_values['left_button_url'] ?? '') }}"
-                                   data-text="Work With Us"><span
+                                   data-text="{{ __('translate.Work With Us') }}"><span
                                         class="btn-wraper">{{ getTranslatedValue($contactUsContent,'left_button_text', $currentLang) }}</span></a>
                                 <a class="optech-default-btn optech-white-btn"
                                     href="{{ url(@$contactUsContent->data_values['right_button_url'] ?? '') }}"
-                                   data-text="View Services"> <span
+                                   data-text="{{ __('translate.View Services') }}"> <span
                                         class="btn-wraper">{{ getTranslatedValue($contactUsContent,'right_button_text', $currentLang) }}</span>
                                 </a>
                             </div>
@@ -1107,7 +1107,7 @@
                                 <li><a href="{{ route('services') }}">{{ __('translate.Services') }}</a></li>
                                 <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a></li>
                                 <li><a href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a></li>
-                                <li><a href="{{ route('faq') }}">{{__('Faqs')}}</a></li>
+                                <li><a href="{{ route('faq') }}">{{__('translate.Faqs')}}</a></li>
                             </ul>
                         </div>
                     </div>

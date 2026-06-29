@@ -65,6 +65,26 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('user.qr-codes') }}" class="{{ request()->routeIs('user.qr-codes') ? 'active' : '' }}">
+                    <span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 4V8H7V4H3ZM4 7V5H6V7H4ZM11 3V6H13V3H11ZM15 6V11H20V6H15ZM18 8H17V7H18V8ZM3 13V17H7V13H3ZM4 16V14H6V16H4ZM11 12V15H13V12H11ZM15 16V21H20V16H15ZM18 18H17V17H18V18ZM3 21V18H7V21H3ZM4 20V19H6V20H4Z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                    {{ __('translate.My QR Codes') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('user.downloads') }}" class="{{ request()->routeIs('user.downloads*') ? 'active' : '' }}">
+                    <span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.41V9c0-.55.45-1 1-1s1 .45 1 1v7.41l2.29-2.3a1 1 0 011.42 1.42l-4 4a1 1 0 01-1.42 0l-4-4a1 1 0 111.42-1.42L11 16.41z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                    {{ __('translate.My Downloads') }}
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('user.transactions') }}" class="{{ request()->routeIs('user.transactions') ? 'active' : '' }}">
                     <span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -81,6 +101,20 @@
                         </svg>
                     </span>
                     {{ __('translate.Transactions') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('user.invoices') }}" class="{{ request()->routeIs('user.invoices') ? 'active' : '' }}">
+                    <span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 2H15C18 2 20 4 20 7V17C20 20 18 22 15 22H9C6 22 4 20 4 17V7C4 4 6 2 9 2Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 13.5V15.5C14 16.6 13.1 17.5 12 17.5C10.9 17.5 10 16.6 10 15.5V13.5C10 12.4 10.9 11.5 12 11.5C13.1 11.5 14 12.4 14 13.5Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8.5 11V16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M15.5 11V16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 7H16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    {{ __('translate.My Invoices') }}
                 </a>
             </li>
             <li>

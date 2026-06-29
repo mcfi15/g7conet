@@ -15,9 +15,8 @@ class ProductController extends Controller
     public function shop(Request $request)
     {
         try {
-            $query = Product::with('translate')->active();
+            $query = Product::with(['translate', 'reviews'])->active();
 
-            // Only apply price filter if values are explicitly set in request
             if ($request->filled('min_price')) {
                 $query->where('price', '>=', $request->min_price);
             }
@@ -25,7 +24,16 @@ class ProductController extends Controller
                 $query->where('price', '<=', $request->max_price);
             }
 
-            $products = $query->latest()->paginate(12);
+            $sort = $request->get('sort', 'newest');
+            switch ($sort) {
+                case 'sales': $query->withCount('licenses')->orderBy('licenses_count', 'desc'); break;
+                case 'rating': $query->withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc'); break;
+                case 'price_asc': $query->orderBy('price', 'asc'); break;
+                case 'price_desc': $query->orderBy('price', 'desc'); break;
+                default: $query->latest(); break;
+            }
+
+            $products = $query->paginate(12)->withQueryString();
 
             // Get price range from all products, not filtered ones
             $productMaxPrice = Product::active()->max('price') ?? 1000;
@@ -56,7 +64,7 @@ class ProductController extends Controller
             ));
 
         } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred while loading the shop page.');
+            return back()->with('error', trans('translate.An error occurred while loading the shop page.'));
         }
     }
 
@@ -77,6 +85,7 @@ class ProductController extends Controller
 
         // 3. Build the query
         $products = Product::with('translate')
+            ->with(['translate', 'reviews'])
             ->when($query, function($q) use ($query) {
                 $q->whereHas('translate', function($sq) use ($query) {
                     $sq->where('name', 'LIKE', "%{$query}%");
@@ -94,10 +103,18 @@ class ProductController extends Controller
             ->when($request->filled('max_price'), function($q) use ($maxPrice) {
                 $q->where('price', '<=', $maxPrice);
             })
-            ->active()
-            ->latest()
-            ->paginate(12)
-            ->withQueryString();
+            ->active();
+
+        $sort = $request->get('sort', 'newest');
+        switch ($sort) {
+            case 'sales': $products->withCount('licenses')->orderBy('licenses_count', 'desc'); break;
+            case 'rating': $products->withAvg('reviews', 'rating')->orderBy('reviews_avg_rating', 'desc'); break;
+            case 'price_asc': $products->orderBy('price', 'asc'); break;
+            case 'price_desc': $products->orderBy('price', 'desc'); break;
+            default: $products->latest(); break;
+        }
+
+        $products = $products->paginate(12)->withQueryString();
 
         // 4. Get brands and categories for filters
         $brands = Brand::with('translate')->get();
@@ -126,15 +143,32 @@ class ProductController extends Controller
         $seo_setting = SeoSetting::first();
 
         $product = Product::where('slug', $slug)
-            ->with(['translate', 'galleries', 'reviews'])
+            ->with(['translate', 'galleries', 'reviews', 'updates.file', 'currentFile'])
             ->firstOrFail();
 
         $pageTitle = $product->translate?->name;
 
-        $relatedProducts = Product::latest()
-                ->where('id', '!=', $product->id)
-                ->limit(4)
+        $relatedProducts = Product::with(['translate', 'reviews'])
+            ->active()
+            ->where('id', '!=', $product->id)
+            ->where(function ($q) use ($product) {
+                $q->where('category_id', $product->category_id)
+                  ->orWhere('product_type', $product->product_type);
+            })
+            ->latest()
+            ->limit(4)
+            ->get();
+
+        if ($relatedProducts->count() < 4) {
+            $existingIds = $relatedProducts->pluck('id')->push($product->id);
+            $extra = Product::with(['translate', 'reviews'])
+                ->active()
+                ->whereNotIn('id', $existingIds)
+                ->latest()
+                ->limit(4 - $relatedProducts->count())
                 ->get();
+            $relatedProducts = $relatedProducts->concat($extra);
+        }
 
         $reviews = ProductReview::with('user')
             ->where('product_id', $product->id)

@@ -46,7 +46,7 @@
                         <div class="d_profile_setting_from_item">
                             <div class="optech-checkout-field">
                                 <label>{{ __('translate.Current Password*') }}</label>
-                                <input type="password" placeholder="Current Password" name="password">
+                                <input type="password" placeholder="{{ __('translate.Current Password') }}" name="password">
 
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                             </button>
                         </form>
 
-                        <button class="optech-default-btn two" data-text="Cancel" data-bs-dismiss="modal">
+                        <button class="optech-default-btn two" data-text="{{ __('translate.Cancel') }}" data-bs-dismiss="modal">
                             <span class="btn-wraper">{{ __('translate.Cancel') }}</span>
                         </button>
                     </div>
@@ -202,9 +202,9 @@
     <div class="optech-header-search-section">
         <div class="container">
             <div class="optech-header-search-box">
-                <input type="search" placeholder="Search here...">
+                <input type="search" placeholder="{{ __('translate.Search here...') }}">
                 <button id="header-search" type="button"><i class="ri-search-line"></i></button>
-                <p>Type above and press Enter to search. Press Close to cancel.</p>
+                <p>{{ __('translate.Type above and press Enter to search. Press Close to cancel.') }}</p>
             </div>
         </div>
         <div class="optech-header-search-close">
@@ -222,7 +222,7 @@
     <!-- End breadcrumb -->
     <div class="section optech-section-padding">
         <div class="container">
-            <div class="dashbord_bg">
+            <div class="dashbord_bg ">
                 <div class="row">
                     @include('user.sidebar')
                     <div class="col-xxl-9 col-xl-8 col-lg-8 col-md-7">

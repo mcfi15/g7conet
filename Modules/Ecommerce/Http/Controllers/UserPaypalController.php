@@ -180,34 +180,95 @@ class UserPaypalController extends Controller
                 ->update(['payment_status' => Status::APPROVED]);
         }
 
+        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+
+        $hasDigital = $cartItems->contains(fn($c) => $c->product->is_digital);
+        $hasPhysical = $cartItems->contains(fn($c) => !$c->product->is_digital);
+        $orderType = $hasDigital && $hasPhysical ? 'mixed' : ($hasDigital ? 'digital' : 'physical');
+
         $order = new Order();
-        $order->order_id =  time() . randomNumber(5);
+        $order->order_id = time() . randomNumber(5);
         $order->user_id = $user->id;
         $order->subtotal = $orderData['subtotal'];
-        $order->shipping_charge = $orderData['shipping_charge'];
+        $order->shipping_charge = $orderData['shipping_charge'] ?? 0;
         $order->total = $orderData['total'];
-        $order->shipping_method_id = $orderData['shipping_method_id'];
-        $order->address = $orderData['address'];
+        $order->shipping_method_id = $orderData['shipping_method_id'] ?? 0;
+        $order->address = $orderData['address'] ?? [];
         $order->payment_method = $payment_method;
         $order->payment_status = $payment_status;
         $order->order_status = Status::PENDING;
         $order->transaction_id = $tnx_info;
+        $order->type = $orderType;
         $order->save();
 
-        $cartItems = Cart::where('user_id', $user->id)->get();
-
         foreach ($cartItems as $item) {
-            $price = $item->quantity * $item->product->finalPrice;
+            $product = $item->product;
+            $price = $item->quantity * $product->finalPrice;
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
             $orderDetail->product_id = $item->product_id;
             $orderDetail->quantity = $item->quantity;
             $orderDetail->price = $price;
+
+            if ($product->is_digital) {
+                $orderDetail->download_token = bin2hex(random_bytes(32));
+            }
+
             $orderDetail->save();
+
+            if ($product->is_digital && $product->license_type !== 'none' && $payment_status == Status::APPROVED) {
+                $license = \Modules\Ecommerce\Entities\Digital\License::create([
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'product_id' => $product->id,
+                    'license_key' => \Modules\Ecommerce\Entities\Digital\License::generateUniqueKey(),
+                    'license_type' => $product->license_type === 'both' ? 'regular' : $product->license_type,
+                    'activation_limit' => $product->license_type === 'extended' ? 5 : 1,
+                    'expires_at' => $product->update_support_months
+                        ? now()->addMonths($product->update_support_months)
+                        : null,
+                ]);
+
+                $orderDetail->license_id = $license->id;
+                $orderDetail->save();
+            }
+
+            try {
+                $this->sendDigitalPurchaseEmail($user, $order, $orderDetail, $product);
+            } catch (\Exception $e) {
+                \Log::error('Purchase email failed for order ' . $order->id . ': ' . $e->getMessage());
+            }
         }
 
         Cart::where('user_id', $user->id)->delete();
         return $order;
+    }
+
+    protected function sendDigitalPurchaseEmail($user, $order, $orderDetail, $product)
+    {
+        try {
+            $downloadUrl = route('user.downloads.token', $orderDetail->download_token);
+            $licenseKey = $orderDetail->license?->license_key;
+
+            $data = [
+                'user_name' => $user->name,
+                'order_id' => $order->order_id,
+                'product_name' => $product->name ?? 'Digital Product',
+                'download_url' => $downloadUrl,
+                'license_key' => $licenseKey,
+                'support_expiry' => $product->update_support_months
+                    ? now()->addMonths($product->update_support_months)->format('F d, Y')
+                    : null,
+            ];
+
+            \Mail::send('emails.digital-purchase', $data, function ($message) use ($user, $product) {
+                $message->to($user->email, $user->name)
+                    ->subject(__('translate.Your Download is Ready') . ' - ' . ($product->name ?? __('translate.Digital Product')));
+                $message->from(config('mail.from.address'), config('mail.from.name'));
+            });
+        } catch (\Exception $e) {
+            \Log::error('Failed to send purchase email: ' . $e->getMessage());
+        }
     }
 
 }

@@ -97,7 +97,7 @@
                             @include('frontend.templates.layouts._cart', ['iconColor' => '#fff'])
 
 
-                            <a class="optech-default-btn optech-header-btn" href="{{ route('contact-us') }}" data-text="Get in Touch"><span
+                            <a class="optech-default-btn optech-header-btn" href="{{ route('contact-us') }}" data-text="{{ __('translate.Get in Touch') }}"><span
                                     class="btn-wraper">{{ __('translate.Get in Touch') }}</span>
                             </a>
                         </div>

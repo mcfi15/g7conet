@@ -34,22 +34,23 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="optech-checkout-form">
-                            <h5>{{ __('translate.Shipping Details') }}</h5>
+                            <h5>{{ $hasPhysical ? __('translate.Shipping Details') : __('translate.Contact Details') }}</h5>
                                 <div class="optech-checkout-field">
                                     <label>{{ __('translate.Full Name') }}</label>
-                                    <input type="text" value="{{ auth()->user()->name ?? '' }}" name="name" placeholder="Full Name">
+                                    <input type="text" value="{{ auth()->user()->name ?? '' }}" name="name" placeholder="{{ __('translate.Full Name') }}">
                                 </div>
 
                                 <div class="optech-checkout-field">
                                     <label>{{ __('translate.Email') }}</label>
-                                    <input type="email" value="{{ auth()->user()->email ?? '' }}" name="email" placeholder="Email">
+                                    <input type="email" value="{{ auth()->user()->email ?? '' }}" name="email" placeholder="{{ __('translate.Email') }}">
                                 </div>
 
                                 <div class="optech-checkout-field">
                                     <label>{{ __('translate.WhatsApp Number') }}</label>
-                                    <input type="text" value="{{ auth()->user()->phone ?? '' }}" name="phone" placeholder="WhatsApp Phone">
+                                    <input type="text" value="{{ auth()->user()->phone ?? '' }}" name="phone" placeholder="{{ __('translate.WhatsApp Phone') }}">
                                 </div>
 
+                                @if($hasPhysical)
                                 <div class="optech-checkout-field dropdown">
                                     <label>{{ __('translate.Shipping Method') }}</label>
                                     <select name="shipping_method_id" class="form-select">
@@ -63,6 +64,7 @@
                                     <label>{{ __('translate.Full Address') }}</label>
                                     <input class="house-number" name="address" type="text" placeholder="{{ __('translate.House number and Street name') }}">
                                 </div>
+                                @endif
 
                         </div>
                         </div>

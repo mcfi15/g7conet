@@ -139,7 +139,7 @@
                             <div class="optech-btn-wrap">
                                 <a class="optech-default-btn" href="{{ getTranslatedValue($heroSection,'left_button_url', $currentLang) }}" data-text="{{ getTranslatedValue($heroSection,'left_button_text', $currentLang) }}"><span
                                         class="btn-wraper">{{ getTranslatedValue($heroSection,'left_button_text', $currentLang) }}</span></a>
-                                <a class="optech-default-btn optech-light-btn" href="{{ getTranslatedValue($heroSection,'right_button_url', $currentLang) }}" data-text="View Services">
+                                <a class="optech-default-btn optech-light-btn" href="{{ getTranslatedValue($heroSection,'right_button_url', $currentLang) }}" data-text="{{ __('translate.View Services') }}">
                                     <span class="btn-wraper">
                                         {{ getTranslatedValue($heroSection,'right_button_text', $currentLang) }}
                                     </span>
@@ -363,7 +363,7 @@
                                 <li><a href="{{ route('services') }}">{{ __('translate.Services') }}</a></li>
                                 <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a></li>
                                 <li><a href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a></li>
-                                <li><a href="{{ route('faq') }}">{{__('Faqs')}}</a></li>
+                                <li><a href="{{ route('faq') }}">{{__('translate.Faqs')}}</a></li>
                             </ul>
                         </div>
                     </div>

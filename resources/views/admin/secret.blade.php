@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Access</title>
+    <title>{{ __('translate.Admin Access') }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -32,14 +32,14 @@
 </head>
 <body>
     <div class="card">
-        <h1>Admin Access</h1>
-        <p>Enter the secret key to continue.</p>
+        <h1>{{ __('translate.Admin Access') }}</h1>
+        <p>{{ __('translate.Enter the secret key to continue.') }}</p>
         @if ($error)
             <div class="error">{{ $error }}</div>
         @endif
         <form method="GET">
-            <input type="password" name="admin_secret" placeholder="Secret key" autofocus>
-            <button type="submit">Continue</button>
+            <input type="password" name="admin_secret" placeholder="{{ __('translate.Secret key') }}" autofocus>
+            <button type="submit">{{ __('translate.Continue') }}</button>
         </form>
     </div>
 </body>

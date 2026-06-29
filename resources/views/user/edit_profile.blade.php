@@ -61,7 +61,7 @@
             </div>
             <div class="optech-checkout-field">
                 <label>{{ __('translate.ZIP Code*') }}</label>
-                <input type="text" placeholder="Zip Code" name="zip"
+                <input type="text" placeholder="{{ __('translate.Zip Code') }}" name="zip"
                        value="{{ $user->zip }}">
             </div>
         </div>

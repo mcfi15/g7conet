@@ -81,3 +81,12 @@
 .ri-arrow-down-s-fill:before { content: "\ea4d"; }
 .ri-arrow-up-s-fill:before { content: "\ea77"; }
 .ri-arrow-left-s-fill:before { content: "\ea63"; }
+.ri-shopping-cart-line:before { content: "\f101"; }
+.ri-store-2-line:before { content: "\f1e1"; }
+.ri-customer-service-2-line:before { content: "\ebe0"; }
+.ri-user-line:before { content: "\f385"; }
+.ri-user-add-line:before { content: "\f37f"; }
+.ri-dashboard-line:before { content: "\ec08"; }
+.ri-logout-box-r-line:before { content: "\eedc"; }
+.ri-money-dollar-circle-line:before { content: "\ef95"; }
+.ri-global-line:before { content: "\ed3b"; }

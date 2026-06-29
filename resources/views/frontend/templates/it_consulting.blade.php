@@ -626,7 +626,7 @@
                             <img src="{{ asset(getImage($processContent,'image_3')) }}" alt=""  class="full-img">
                         </div>
                         <div class="optech-numberbox-data">
-                            <span>{{__('03')}}</span>
+                            <span>03</span>
                             <h4>{{ getTranslatedValue($processContent, 'step_3', $currentLang) }}</h4>
                             <p>{{ getTranslatedValue($processContent, 'description_3', $currentLang) }}</p>
                         </div>
@@ -971,7 +971,7 @@
                             <ul>
                                 <li><a href="{{ route('privacy-policy') }}">{{ __('translate.Privacy Policy') }}</a></li>
                                 <li><a href="{{ route('terms-conditions') }}">{{ __('translate.Terms & Conditions') }}</a></li>
-                                <li><a href="{{ route('faq') }}">{{__('Faqs')}}</a></li>
+                                <li><a href="{{ route('faq') }}">{{__('translate.Faqs')}}</a></li>
                             </ul>
                         </div>
                     </div>

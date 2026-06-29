@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ config('app.name', __('Sign Up')) }}</title>
+    <title>{{ config('app.name', __('translate.Sign Up')) }}</title>
 @endsection
 @section('front-content')
 
@@ -39,12 +39,12 @@
                     <div class="d_profile_setting_from_item mb-0">
                         <div class="optech-checkout-field">
                             <label>{{ __('translate.Password*') }}</label>
-                            <input type="password" placeholder="********" name="password">
+                            <input type="password" placeholder="{{ __('translate.Password') }}" name="password">
 
                         </div>
                         <div class="optech-checkout-field">
                             <label>{{ __('translate.Confirm Password*') }}</label>
-                            <input type="password" placeholder="*********"  name="password_confirmation">
+                            <input type="password" placeholder="{{ __('translate.Confirm Password') }}"  name="password_confirmation">
 
                         </div>
                     </div>

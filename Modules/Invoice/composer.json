@@ -1,0 +1,16 @@
+{
+    "name": "modules/invoice",
+    "description": "",
+    "authors": [],
+    "extra": {
+        "laravel": {},
+        "branch-alias": {
+            "dev-master": "10.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Invoice\\": ""
+        }
+    }
+}

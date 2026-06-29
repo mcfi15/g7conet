@@ -343,9 +343,43 @@
                 <span class="menu-bar__name">{{ __('translate.Manage Frontend') }}</span></span></a>
             </li>
 
+            <h4 class="admin-menu__title pt-2">{{ __('translate.Business Tools') }}</h4>
 
+            <li class="{{ Route::is('admin.invoice.*') ? 'active' : '' }}">
+                <a class="collapsed" href="{{ route('admin.invoice.index') }}">
+                    <span class="menu-bar__text">
+                        <span class="crancy-menu-icon crancy-svg-icon__v1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 2H15C18 2 20 4 20 7V17C20 20 18 22 15 22H9C6 22 4 20 4 17V7C4 4 6 2 9 2Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 13.5V15.5C14 16.6 13.1 17.5 12 17.5C10.9 17.5 10 16.6 10 15.5V13.5C10 12.4 10.9 11.5 12 11.5C13.1 11.5 14 12.4 14 13.5Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8.5 11V16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M15.5 11V16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M8 7H16" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span class="menu-bar__name">{{ __('translate.Invoice Generator') }}</span>
+                        @if (($general_setting->invoice_status ?? '1') != '1')
+                            <span class="badge bg-warning text-dark ms-1" style="font-size:10px">{{ __('translate.Disabled') }}</span>
+                        @endif
+                    </span>
+                </a>
+            </li>
 
-
+            <li class="{{ Route::is('admin.qrcode.*') ? 'active' : '' }}">
+                <a class="collapsed" href="{{ route('admin.qrcode.index') }}">
+                    <span class="menu-bar__text">
+                        <span class="crancy-menu-icon crancy-svg-icon__v1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 4V8H7V4H3ZM4 7V5H6V7H4ZM11 3V6H13V3H11ZM15 6V11H20V6H15ZM18 8H17V7H18V8ZM3 13V17H7V13H3ZM4 16V14H6V16H4ZM11 12V15H13V12H11ZM15 16V21H20V16H15ZM18 18H17V17H18V18ZM3 21V18H7V21H3ZM4 20V19H6V20H4Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <span class="menu-bar__name">{{ __('translate.QR Code Generator') }}</span>
+                        @if (($general_setting->qr_code_status ?? '1') != '1')
+                            <span class="badge bg-warning text-dark ms-1" style="font-size:10px">{{ __('translate.Disabled') }}</span>
+                        @endif
+                    </span>
+                </a>
+            </li>
 
             <h4 class="admin-menu__title pt-2">{{ __('translate.Setting & Configuration') }}</h4>
 

@@ -34,14 +34,19 @@ class CheckoutController extends Controller
     {
         if(auth()->user()){
             $seo_setting = SeoSetting::first();
-            $methods = ShippingMethod::active()->get();
-            $carts = Cart::where('user_id', auth()->user()->id)->get();
+            $carts = Cart::where('user_id', auth()->user()->id)->with('product')->get();
             $sub_total = $carts->sum(fn($cart) => $cart->product->finalPrice * $cart->quantity);
+
+            $hasDigital = $carts->contains(fn($c) => $c->product->is_digital);
+            $hasPhysical = $carts->contains(fn($c) => !$c->product->is_digital);
+
+            $methods = $hasPhysical ? ShippingMethod::active()->get() : collect();
+
             $paypal = PaymentGateway::where(['key' => 'paypal_currency_id'])->first();
             $stripe = PaymentGateway::where(['key' => 'stripe_currency_id'])->first();
             $paypal_status = PaymentGateway::where('key', 'paypal_status')->value('value');
 
-            return view('ecommerce::frontend.checkout', compact('carts','seo_setting','methods','sub_total', 'paypal', 'stripe', 'paypal_status'));
+            return view('ecommerce::frontend.checkout', compact('carts','seo_setting','methods','sub_total', 'paypal', 'stripe', 'paypal_status', 'hasDigital', 'hasPhysical'));
         }else{
             $notification = trans('translate.First You Need To login This Checkout');
             $notification = array('messege' => $notification, 'alert-type' => 'error');
@@ -58,13 +63,21 @@ class CheckoutController extends Controller
             return redirect()->back()->with($notification);
         }
 
+        $carts = Cart::where('user_id', auth()->user()->id)->with('product')->get();
+        $hasDigital = $carts->contains(fn($c) => $c->product->is_digital);
+        $hasPhysical = $carts->contains(fn($c) => !$c->product->is_digital);
+
         $rules = [
-            'shipping_method_id' => 'required',
-            'address' => 'required',
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required',
         ];
+
+        if ($hasPhysical) {
+            $rules['shipping_method_id'] = 'required';
+            $rules['address'] = 'required';
+        }
+
         $customMessages = [
             'shipping_method_id.required' => trans('translate.Shipping Method is required'),
             'address.required' => trans('translate.Address is required'),
@@ -75,19 +88,18 @@ class CheckoutController extends Controller
 
         $request->validate($rules, $customMessages);
 
-        $customerDetails = json_encode([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-        ]);
+        $addr = ['name' => $request->name, 'email' => $request->email, 'phone' => $request->phone];
+        if ($hasPhysical) {
+            $addr['address'] = $request->address;
+        }
+        $customerDetails = json_encode($addr);
 
         // Prepare order data
         $orderData = [
             'subtotal' => $request->subtotal,
-            'shipping_charge' => $request->shipping_charge,
+            'shipping_charge' => $hasPhysical ? ($request->shipping_charge ?? 0) : 0,
             'total' => $request->total,
-            'shipping_method_id' => $request->shipping_method_id,
+            'shipping_method_id' => $hasPhysical ? ($request->shipping_method_id ?? 0) : 0,
             'address' => json_decode($customerDetails),
         ];
 

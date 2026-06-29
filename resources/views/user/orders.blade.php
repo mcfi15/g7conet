@@ -7,7 +7,7 @@
     <nav class="breadcrumbs">
         <ul>
             <li><a href="{{ route('user.dashboard') }}">{{ __('translate.Home') }}</a></li>
-            <li> {{ __('translate.Orders ') }} </li>
+            <li> {{ __('translate.Orders') }} </li>
         </ul>
     </nav>
 @endsection
@@ -21,9 +21,9 @@
             </div>
             <div class="optech-checkout-field dropdown">
                 <select id="per_page" onchange="changePerPage(this.value)">
-                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>{{__('10')}}</option>
-                    <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>{{__('20')}}</option>
-                    <option value="30" {{ request('per_page') == 30 ? 'selected' : '' }}>{{__('30')}}</option>
+                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                    <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20</option>
+                    <option value="30" {{ request('per_page') == 30 ? 'selected' : '' }}>30</option>
                 </select>
             </div>
             <div class="dashbord_table_top_left_text">
@@ -34,7 +34,7 @@
 
         <form class="dashbord_table_top_right">
             <div class="optech-checkout-field">
-                <input type="text" placeholder="Search" name="search">
+                <input type="text" placeholder="{{ __('translate.Search') }}" name="search">
             </div>
 
             <button type="button" class="search_btn">

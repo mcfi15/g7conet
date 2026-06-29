@@ -26,6 +26,12 @@ Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix').'/ecommerce', 
         Route::get('child-categories-by-sub-category/{subCategoryId}', 'getChildCategories');
         Route::get('review-list', 'review_list')->name('review.list');
     });
+    Route::controller(\Modules\Ecommerce\Http\Controllers\Admin\ProductFileController::class)->name('product.files.')->prefix('product-files')->group(function () {
+        Route::get('{productId}', 'index')->name('index');
+        Route::post('upload/{productId}', 'upload')->name('upload');
+        Route::get('set-current/{fileId}', 'setCurrent')->name('set-current');
+        Route::get('delete/{fileId}', 'destroy')->name('delete');
+    });
     // Order Controller
     Route::controller(OrderController::class)->name('order.')->prefix('order')->group(function (){
         Route::get('/', 'index')->name('index');
@@ -96,6 +102,22 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         Route::post('review-submit', 'reviewSubmit')->name('reviewSubmit');
         Route::get('my/reviews', 'reviews')->name('reviews');
     });
+
+    // Digital Marketplace Routes
+    Route::controller(\Modules\Ecommerce\Http\Controllers\Digital\DownloadController::class)->name('user.')->prefix('user/downloads')->group(function () {
+        Route::get('/', 'index')->name('downloads');
+        Route::get('download/{orderDetailId}', 'download')->name('downloads.file');
+    });
+
+    Route::get('/download/token/{token}', [\Modules\Ecommerce\Http\Controllers\Digital\DownloadController::class, 'downloadByToken'])->name('user.downloads.token');
+
+    Route::controller(\Modules\Ecommerce\Http\Controllers\Digital\LicenseController::class)->name('license.')->prefix('api/license')->group(function () {
+        Route::post('validate', 'validateLicense')->name('validate');
+        Route::post('activate', 'activate')->name('activate');
+        Route::post('deactivate', 'deactivate')->name('deactivate');
+    });
+
+    Route::get('/user/license/{license}', [\Modules\Ecommerce\Http\Controllers\Digital\LicenseController::class, 'show'])->name('user.license.show');
 
 });
 

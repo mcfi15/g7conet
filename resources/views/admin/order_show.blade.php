@@ -91,6 +91,18 @@
 
 
                 <tr>
+                  <td>{{ __('translate.Type') }}:</td>
+                  <td>
+                    @if($order->type === 'digital')
+                      <span class="badge bg-info">{{ __('translate.Digital') }}</span>
+                    @elseif($order->type === 'mixed')
+                      <span class="badge bg-warning text-dark">{{ __('translate.Mixed') }}</span>
+                    @else
+                      <span class="badge bg-secondary">{{ __('translate.Physical') }}</span>
+                    @endif
+                  </td>
+                </tr>
+                <tr>
                   <td>{{ __('translate.Gateway') }}:</td>
                   <td>{{ html_decode($order->payment_method) }}</td>
                 </tr>
@@ -144,6 +156,60 @@
                 </div>
               </div>
               </div>
+
+              @if(in_array($order->type, ['digital', 'mixed']))
+              <div class="ed-inv-table-content mg-top-20">
+                <p class="ed-inv-table-headline">{{ __('translate.Digital Assets') }}</p>
+                <div class="ed-inv-invoice-table-main-wrapper">
+                  <div class="ed-inv-invoice-table-wrapper">
+                    <table class="ed-inv-invoice-table">
+                      <thead>
+                        <tr>
+                          <th>{{ __('translate.Product') }}</th>
+                          <th>{{ __('translate.License Key') }}</th>
+                          <th>{{ __('translate.Download Token') }}</th>
+                          <th>{{ __('translate.Support Until') }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($order->order_detail as $detail)
+                          @php $p = $detail->singleProduct; @endphp
+                          @if($p && $p->is_digital)
+                          <tr>
+                            <td>{{ $p->translate->name ?? 'N/A' }}</td>
+                            <td>
+                              @if($detail->license)
+                                <code class="text-primary" style="font-size:12px">{{ $detail->license->license_key }}</code>
+                                <br><small class="text-muted">{{ ucfirst($detail->license->license_type) }} ({{ $detail->license->activations_count }}/{{ $detail->license->activation_limit }})</small>
+                              @else
+                                <span class="text-muted">--</span>
+                              @endif
+                            </td>
+                            <td>
+                              @if($detail->download_token)
+                                <code class="text-muted" style="font-size:11px">{{ Str::limit($detail->download_token, 20) }}</code>
+                                <br><a href="{{ route('user.downloads.token', $detail->download_token) }}" target="_blank" class="text-primary" style="font-size:12px">{{ __('translate.Download Link') }}</a>
+                              @else
+                                <span class="text-muted">--</span>
+                              @endif
+                            </td>
+                            <td>
+                              @if($p && $p->update_support_months)
+                                {{ \Carbon\Carbon::parse($order->created_at)->addMonths($p->update_support_months)->format('M d, Y') }}
+                              @else
+                                <span class="text-muted">--</span>
+                              @endif
+                            </td>
+                          </tr>
+                          @endif
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              @endif
+
               <div class="ed-inv-billing-summary d-flex justify-content-md-between align-items-center  ">
 
                 <div>

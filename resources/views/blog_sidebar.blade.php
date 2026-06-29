@@ -4,7 +4,7 @@
             <h5>{{ __('translate.Search') }}</h5>
             <form action="{{ route('blogs') }}">
                 <div class="optech-search-box">
-                    <input type="search" placeholder="Type to search..." name="search" value="{{ request('search') }}">
+                    <input type="search" placeholder="{{ __('translate.Type to search...') }}" name="search" value="{{ request('search') }}">
                     <button id="optech-search-btn" type="button"><i class="ri-search-line"></i></button>
                 </div>
             </form>

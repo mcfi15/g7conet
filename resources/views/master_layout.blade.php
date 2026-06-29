@@ -11,7 +11,7 @@
 
     @yield('new-layout')
 
-    @if(!request()->routeIs('user.*') && !request()->routeIs('product.shop') && !request()->routeIs('product.search'))
+    @if(!request()->routeIs('user.*') && !request()->routeIs('product.shop') && !request()->routeIs('product.search') && !request()->routeIs('invoice.*'))
         @include('frontend.templates.layouts.main_demo_cta')
     @endif
     @include('frontend.templates.layouts.footer')

@@ -137,7 +137,7 @@
         function manageStatus(id){
             var appMODE = "{{ env('APP_MODE') }}"
             if(appMODE == 'DEMO'){
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('{{ __("translate.This Is Demo Version. You Can Not Change Anything") }}');
                 return;
             }
 

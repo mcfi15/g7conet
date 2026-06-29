@@ -17,23 +17,25 @@
     <div class="d_order_details_main">
         <div class="d_order_details_main_top">
             <a href="{{ route('home') }}" class="d_order_details_main_top_logo">
-                <img src="{{ asset($general_setting->logo) }}" alt="logo">
+                {{-- <img src="{{ asset($general_setting->logo) }}" alt="logo"> --}}
             </a>
 
-            <a class="optech-default-btn" href="{{ route('user.orders') }}" data-text="Back"><span
+            <a class="optech-default-btn" href="{{ route('user.orders') }}" data-text="{{ __('translate.Back') }}"><span
                     class="btn-wraper">{{ __('translate.Back') }}</span></a>
         </div>
 
         <div class="d_order_details_address_df">
             <div class="d_order_details_address">
-                <h5>{{ __('translate.Billing Address') }}</h5>
+                <div class="d_order_details_address">
+    <h5>{{ __('translate.Billing Address') }}</h5>
 
-                <ul>
-                    <li> <span>{{ __('translate.Name:') }}</span> {{ __($order->address['name']) }}</li>
-                    <li> <span>{{ __('translate.Phone:') }}</span> {{ __($order->address['phone']) }}</li>
-                    <li> <span>{{ __('translate.Email:') }}</span> {{ __($order->address['email']) }}</li>
-                    <li> <span>{{ __('translate.Address:') }}</span> {{ __($order->address['address']) }}</li>
-                </ul>
+    <ul>
+        <li> <span>{{ __('translate.Name:') }}</span> {{ __($order->address['name'] ?? 'N/A') }}</li>
+        <li> <span>{{ __('translate.Phone:') }}</span> {{ __($order->address['phone'] ?? 'N/A') }}</li>
+        <li> <span>{{ __('translate.Email:') }}</span> {{ __($order->address['email'] ?? 'N/A') }}</li>
+        <li> <span>{{ __('translate.Address:') }}</span> {{ __($order->address['address'] ?? 'N/A') }}</li>
+    </ul>
+</div>
             </div>
             <div class="d_order_details_address">
                 <h5>{{ __('translate.Order Details') }}</h5>

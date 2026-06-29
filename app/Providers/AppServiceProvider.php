@@ -65,6 +65,10 @@ class AppServiceProvider extends ServiceProvider
                 $services = Listing::latest()->take(5)->get();
 
                 $footer_categories = Category::where('status', 'enable')->latest()->take(7)->get();
+                $nav_categories = Category::with(['subcategories.front_translate', 'front_translate'])
+                    ->where('status', 'enable')
+                    ->orderBy('id')
+                    ->get();
                 $footer_blog_categories = BlogCategory::where('status', 1)->latest()->take(7)->get();
 
                 $footer = Footer::first();
@@ -78,6 +82,7 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('footer', $footer);
                 $view->with('custom_pages', $custom_pages);
                 $view->with('footer_categories', $footer_categories);
+                $view->with('nav_categories', $nav_categories);
                 $view->with('footer_blog_categories', $footer_blog_categories);
 
             });

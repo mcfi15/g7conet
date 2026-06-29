@@ -49,7 +49,7 @@
 
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">{{__('Visibility Status')}} </label>
+                                                        <label class="crancy__item-label">{{__('translate.Visibility Status')}} </label>
                                                         <div class="crancy-ptabs__notify-switch  crancy-ptabs__notify-switch--two">
                                                             <label class="crancy__item-switch">
                                                             <input name="status" type="checkbox" >

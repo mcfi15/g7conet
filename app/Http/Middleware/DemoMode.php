@@ -26,7 +26,7 @@ class DemoMode
                 if($request->isMethod('post') || $request->isMethod('delete') || $request->isMethod('put') || $request->isMethod('patch')){
 
                     if ($request->ajax()) {
-                        return response()->json(['message' => 'This Is Demo Version. You Can Not Change Anything'],403);
+                        return response()->json(['message' => trans('translate.This Is Demo Version. You Can Not Change Anything')],403);
                     } else {
 
                         $notify_message = trans('translate.This Is Demo Version. You Can Not Change Anything');

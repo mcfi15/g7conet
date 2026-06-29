@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-<title>{{ config('app.name', __('Sign In')) }}</title>
+<title>{{ config('app.name', __('translate.Sign In')) }}</title>
 @endsection
 @section('front-content')
 <!-- forget password modal -->
@@ -34,7 +34,7 @@
                     <div class="d_profile_setting_from_item">
                         <div class="optech-checkout-field">
                             <label>{{ __('translate.Email Address*') }}</label>
-                            <input type="text" placeholder="Email Address" name="email"/>
+                            <input type="text" placeholder="{{ __('translate.Email Address') }}" name="email"/>
                         </div>
                     </div>
                     <a href="{{ route('user.login') }}" data-bs-dismiss="modal">
@@ -143,7 +143,7 @@
 
 
                         <a class="optech-default-btn optech-header-btn" href="{{ route('contact-us') }}"
-                            data-text="Get in Touch"><span class="btn-wraper">{{ __('translate.Get in Touch') }}</span>
+                            data-text="{{ __('translate.Get in Touch') }}"><span class="btn-wraper">{{ __('translate.Get in Touch') }}</span>
                         </a>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
 <div class="optech-header-search-section">
     <div class="container">
         <div class="optech-header-search-box">
-            <input type="search" placeholder="Search here..." />
+            <input type="search" placeholder="{{ __('translate.Search here...') }}" />
             <button id="header-search" type="button">
                 <i class="ri-search-line"></i>
             </button>
@@ -201,7 +201,7 @@
                 <div class="d_profile_setting_from_item mb-0">
                     <div class="optech-checkout-field">
                         <label>{{ __('translate.Password*') }}</label>
-                        <input type="password" id="password" placeholder="**********"  name="password"/>
+                        <input type="password" id="password" placeholder="{{ __('translate.Password') }}"  name="password"/>
 
                     </div>
                 </div>
@@ -229,12 +229,15 @@
                     </button>
                 </div>
                 <div class="sign_up_form_df">
+                    @if (($general_setting->is_facebook ?? '0') == '1')
                     <a href="{{ route('user.login-facebook') }}" class="sign_up_form_btn">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 3H15C12.2386 3 10 5.23858 10 8V10H6V14H10V21H14V14H18V10H14V8C14 7.44772 14.4477 7 15 7H18V3Z" fill="#405FF2"/>
                         </svg>
                         {{ __('translate.Sign In with Facebook') }}
                     </a>
+                    @endif
+                    @if (($general_setting->is_gmail ?? '0') == '1')
                     <a href="{{ route('user.login-google') }}" class="sign_up_form_btn">
                         <span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -255,6 +258,7 @@
                         </span>
                         {{ __('translate.Sign In with Google') }}
                     </a>
+                    @endif
                 </div>
 
                 <div class="sign_up_form_btm_text">

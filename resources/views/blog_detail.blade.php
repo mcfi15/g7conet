@@ -209,7 +209,7 @@
                                                     id="name"
                                                     name="name"
                                                     value="{{ old('name') }}"
-                                                    placeholder="Name"
+                                                    placeholder="{{ __('translate.Name') }}"
                                                 >
                                             </div>
                                         </div>
@@ -220,7 +220,7 @@
                                                     id="email"
                                                     name="email"
                                                     value="{{ old('email') }}"
-                                                    placeholder="Email"
+                                                    placeholder="{{ __('translate.Email') }}"
                                                 >
                                             </div>
                                         </div>
@@ -229,7 +229,7 @@
                                        <textarea
                                            id="desc"
                                            name="comment"
-                                           placeholder="Comment"
+                                           placeholder="{{ __('translate.Comment') }}"
                                        >{{ old('comment') }}
                                        </textarea>
                                     </div>
@@ -246,7 +246,7 @@
                                         </div>
                                     @endif
 
-                                    <button id="optech-default-btn" type="submit" data-text="Send Message">
+                                    <button id="optech-default-btn" type="submit" data-text="{{ __('translate.Send Message') }}">
                                         <span class="btn-wraper">
                                             {{ __('translate.Send Message') }}
                                         </span>

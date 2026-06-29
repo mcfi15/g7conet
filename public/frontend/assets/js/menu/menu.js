@@ -82,3 +82,12 @@ window.onresize = function() {
 
     }
 }
+
+const searchToggle = document.querySelector(".mobile-utility-search");
+const searchBar = document.querySelector(".mobile-search-bar");
+if (searchToggle && searchBar) {
+    searchToggle.addEventListener("click", () => {
+        searchBar.classList.toggle("active");
+        searchToggle.classList.toggle("active");
+    });
+}

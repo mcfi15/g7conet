@@ -7,7 +7,7 @@
         $totalCart = Modules\Ecommerce\Entities\Cart::where('session_id', $sessionId)->count();
     }
 @endphp
-{{-- <a href="{{ route('cart.cart') }}">
+<a href="{{ route('cart.cart') }}">
     <div class="optech-header-cart">
         <span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,4 +18,4 @@
         </span>
         <span class="cart_number cart-count">{{ $totalCart }}</span>
     </div>
-</a> --}}
+</a>

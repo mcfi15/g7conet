@@ -143,6 +143,9 @@ Route::group(['as'=> 'admin.', 'prefix' => config('admin.prefix'), 'middleware' 
             Route::post('/order-approved/{id}', 'order_approved')->name('order-approved');
             Route::post('/order-cancel/{id}', 'order_cancel')->name('order-cancel');
             Route::delete('/order-delete/{id}', 'order_delete')->name('order-delete');
+
+            Route::patch('order/update-status/{id}', 'updateStatus')->name('order.updateStatus');
+            Route::patch('order/payment-status/{id}', 'paymentStatus')->name('order.paymentStatus');
         });
         // Frontend Management
         Route::controller(FrontEndManagementController::class)->name('front-end.')->group(function () {

@@ -620,6 +620,22 @@
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <div class="col-12">
+                                                                                        <div class="crancy__item-form--group mg-top-form-20">
+                                                                                            <label class="crancy__item-label">{{ __('translate.Callback URL') }}</label>
+                                                                                            <input class="crancy__item-input" type="text" value="{{ route('ecommerce.pay-via-paystack') }}" readonly style="background:#f5f5f5;cursor:text;color:#6b7280">
+                                                                                            <small class="text-muted">{{ __('translate.Copy this URL to your Paystack dashboard under Settings > API Keys & Webhooks') }}</small>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-12">
+                                                                                        <div class="crancy__item-form--group mg-top-form-20">
+                                                                                            <label class="crancy__item-label">{{ __('translate.Webhook URL') }}</label>
+                                                                                            <input class="crancy__item-input" type="text" value="{{ url('/paystack/webhook') }}" readonly style="background:#f5f5f5;cursor:text;color:#6b7280">
+                                                                                            <small class="text-muted">{{ __('translate.Copy this URL to your Paystack dashboard under Settings > Webhooks. A webhook endpoint is required for fully automated payment verification') }}</small>
+                                                                                        </div>
+                                                                                    </div>
+
                                                                                 </div>
                                                                             </div>
                                                                         </div>

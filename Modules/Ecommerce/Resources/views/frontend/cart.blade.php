@@ -48,7 +48,7 @@
                                 <div class="optech-cart-thumb">
                                     <i class="ri-close-line delete-cart-item" data-id="{{ $cart->id }}"
                                        data-url="{{ route('cart.delete', $cart->id) }}"></i>
-                                    <img src="{{ getImageOrPlaceholder($cart->product->thumbnail_image, '125x135') }}" alt="Image">
+                                    <img src="{{ getImageOrPlaceholder($cart->product->thumbnail_image, '125x135') }}" alt="{{ __('translate.Product Image') }}">
 
                                     <a href="{{ route('product.view', $cart->product->slug)  }}">  <h5>{{ __(Str::limit($cart->product->translate?->name, 35)) }}</h5>
                                     </a>
@@ -130,7 +130,7 @@
                         if (currentQuantity > 1) {
                             currentQuantity--;
                         } else {
-                            toastr.error('Quantity must be at least 1');
+                            toastr.error('{{ __('translate.Quantity must be at least 1') }}');
                             return;
                         }
                     } else if (this.classList.contains("optech-product-plus")) {

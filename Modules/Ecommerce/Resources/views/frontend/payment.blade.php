@@ -67,7 +67,7 @@
                                 <div class="payment_select_item_box">
                                     <a href="javascript:;" class="payment_box_item" id="razorpay_btn">
                                         <div class="payment_select_item_thumb">
-                                            <img src="{{ asset($payment_setting->razorpay_image) }}" class="w-100" alt="Instamojo">
+                                            <img src="{{ asset($payment_setting->razorpay_image) }}" class="w-100" alt="{{ __('translate.Razorpay') }}">
                                         </div>
                                     </a>
                                 </div>
@@ -99,7 +99,7 @@
                                 <div class="payment_select_item_box">
                                     <a href="javascript:;" class="payment_box_item" id="instamojoPayment">
                                         <div class="payment_select_item_thumb">
-                                            <img src="{{ asset($payment_setting->instamojo_image) }}" class="w-100" alt="Instamojo">
+                                            <img src="{{ asset($payment_setting->instamojo_image) }}" class="w-100" alt="{{ __('translate.Instamojo') }}">
                                         </div>
                                     </a>
                                 </div>
@@ -109,7 +109,7 @@
                                 <div class="payment_select_item_box">
                                     <a href="javascript:;" class="payment_box_item" id="paystackPayment">
                                         <div class="payment_select_item_thumb">
-                                            <img src="{{ asset($payment_setting->paystack_image) }}" class="w-100" alt="Instamojo">
+                                            <img src="{{ asset($payment_setting->paystack_image) }}" class="w-100" alt="{{ __('translate.Paystack') }}">
                                         </div>
                                     </a>
                                 </div>
@@ -119,7 +119,7 @@
                                 <div class="payment_select_item_box">
                                     <a href="javascript:;" class="payment_box_item" id="payWithFlutterwave">
                                         <div class="payment_select_item_thumb">
-                                            <img src="{{ asset($payment_setting->flutterwave_logo) }}" class="w-100" alt="Instamojo">
+                                            <img src="{{ asset($payment_setting->flutterwave_logo) }}" class="w-100" alt="{{ __('translate.Flutterwave') }}">
                                         </div>
                                     </a>
                                 </div>
@@ -241,7 +241,7 @@
                         <h4>{{ __('translate.Amount') }}<span>{{ currency($total) }}</span></h4>
                     </div>
                     <div class="bank-payment-modal-txt">
-                        {!! clean(nl2br($bank->account_info)) !!}
+                        {!! clean(nl2br($payment_setting->bank_account_info)) !!}
                     </div>
                     <form class="payment-modal-from" action="{{ route('ecommerce.bank') }}" method="POST" id="bank_payment_form">
                         @csrf
@@ -371,7 +371,7 @@
 
             var isDemo = "{{ env('APP_MODE') }}"
             if(isDemo == 'DEMO'){
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('{{ __('translate.This Is Demo Version. You Can Not Change Anything') }}');
                 return;
             }
 
@@ -398,13 +398,13 @@
                                         }
                                     },
                                     error: function(response){
-                                            toastr.error('Server Error');
+                                            toastr.error('{{ __('translate.Server Error') }}');
                                             window.location.reload();
                                     }
                                 });
                             },
                             onClose: function(){
-                                alert('window closed');
+                                alert('{{ __('translate.Window closed') }}');
                             }
                         });
                 handler.openIframe();
@@ -434,7 +434,7 @@
 
              var isDemo = "{{ env('APP_MODE') }}"
              if(isDemo == 'DEMO'){
-                 toastr.error('This Is Demo Version. You Can Not Change Anything');
+                 toastr.error('{{ __('translate.This Is Demo Version. You Can Not Change Anything') }}');
                  return;
              }
 

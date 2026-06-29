@@ -9,6 +9,62 @@
             <div class="mobile-menu-close">&times;</div>
         </div>
 
+        <div class="mobile-utility-bar">
+            <div class="mobile-utility-item mobile-currency-wrap">
+                <span class="mobile-utility-icon"><i class="ri-money-dollar-circle-line"></i></span>
+                <form action="{{ route('currency-switcher') }}" class="mobile-utility-form">
+                    <select name="currency_code" class="mobile-utility-select" onchange="this.form.submit()">
+                        @foreach ($currency_list as $currency_item)
+                            <option {{ Session::get('currency_code') == $currency_item->currency_code ? 'selected' : '' }} value="{{ $currency_item->currency_code }}">{{ $currency_item->currency_name }}</option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+            <div class="mobile-utility-item mobile-lang-wrap">
+                <span class="mobile-utility-icon"><i class="ri-global-line"></i></span>
+                <form action="{{ route('language-switcher') }}" class="mobile-utility-form">
+                    <select name="lang_code" class="mobile-utility-select" onchange="this.form.submit()">
+                        @foreach ($language_list as $language_item)
+                            <option {{ Session::get('front_lang') == $language_item->lang_code ? 'selected' : '' }} value="{{ $language_item->lang_code }}">{{ $language_item->lang_name }}</option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+            <div class="mobile-utility-item mobile-utility-search">
+                <i class="ri-search-line"></i>
+            </div>
+        </div>
+
+        <div class="mobile-search-bar">
+            <form action="{{ route('product.search') }}" method="GET">
+                <input type="search" name="query" placeholder="{{ __('translate.Search here...') }}" required>
+                <button type="submit"><i class="ri-search-line"></i></button>
+            </form>
+        </div>
+
+        <div class="mobile-user-section">
+            @auth
+                <a href="{{ route('user.dashboard') }}" class="mobile-user-link">
+                    <i class="ri-dashboard-line"></i>
+                    <span>{{ __('translate.Dashboard') }}</span>
+                </a>
+                <a href="{{ route('user.logout') }}" class="mobile-user-link" onclick="event.preventDefault(); document.getElementById('mobile-logout-form').submit();">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>{{ __('translate.Logout') }}</span>
+                </a>
+                <form id="mobile-logout-form" action="{{ route('user.logout') }}" method="GET" style="display:none;">@csrf</form>
+            @else
+                <a href="{{ route('user.login') }}" class="mobile-user-link">
+                    <i class="ri-user-line"></i>
+                    <span>{{ __('translate.Login') }}</span>
+                </a>
+                <a href="{{ route('user.register') }}" class="mobile-user-link">
+                    <i class="ri-user-add-line"></i>
+                    <span>{{ __('translate.Register') }}</span>
+                </a>
+            @endauth
+        </div>
+
         <ul class="site-menu-main {{ $menuTheme ?? '' }}">
 
             @php
@@ -71,62 +127,58 @@
             @endif
 
             <li class="nav-item">
-                <a href="{{ route('about-us') }}" class="nav-link-item">
-                    <span class="menu-item-text">{{ __('translate.About Us') }}</span>
-                </a>
-            </li>
-
-            {{-- <li class="nav-item">
                 <a href="{{ route('product.shop') }}" class="nav-link-item">
-                    <span class="menu-item-text">{{ __('translate.Shop') }}</span>
-                </a>
-            </li> --}}
-
-            <li class="nav-item">
-                <a href="{{ route('services') }}" class="nav-link-item">
-                    <span class="menu-item-text">{{ __('translate.Service') }}</span>
+                    <span class="menu-item-text">{{ __('translate.Marketplace') }}</span>
                 </a>
             </li>
 
-            
-
-
-            @php
-                $portfolioType = Modules\GlobalSetting\App\Models\GlobalSetting::where('key', 'portfolio_type')->first()?->value ?? 'default';
-                $isGrid = $portfolioType === 'grid';
-            @endphp
-
-            <li class="nav-item">
-                <a href="{{ route('portfolio') }}" class="nav-link-item">
-                    <span class="menu-item-text">{{ __('translate.Portfolio') }}</span>
-                </a>
-            </li>
-
-            {{-- @if(config('app.env') === 'DEMO' || $portfolioType == 'all')
-                <li class="nav-item nav-item-has-children">
-                <a href="#" class="nav-link-item drop-trigger">{{ __('translate.Portfolio') }} <i
-                        class="ri-arrow-down-s-fill"></i></a>
-                <ul class="sub-menu shape-none" id="submenu-6">
-                    <li class="sub-menu--item">
-                        <a href="{{ route('portfolio', ['type' => 'grid']) }}">
-                            <span class="menu-item-text {{ $isGrid ? 'active' : '' }}">{{ __('translate.Portfolio Grid') }}</span>
-                        </a>
-                    </li>
-                    <li class="sub-menu--item">
-                        <a href="{{ route('portfolio') }}">
-                            <span class="menu-item-text {{ !$isGrid ? 'active' : '' }}">{{ __('translate.Portfolio Masonry') }}</span>
-                        </a>
-                    </li>
-
+            @if($nav_categories->isNotEmpty())
+            <li class="nav-item nav-item-has-children">
+                <a href="#" class="nav-link-item drop-trigger">{{ __('translate.Categories') }} <i class="ri-arrow-down-s-fill"></i></a>
+                <ul class="sub-menu" id="submenu-categories">
+                    @foreach($nav_categories as $nav_category)
+                        @if($nav_category->subcategories->isNotEmpty())
+                        <li class="sub-menu--item nav-item-has-children">
+                            <a href="{{ route('product.shop', ['categories[]' => $nav_category->id]) }}" class="drop-trigger">
+                                {{ $nav_category->front_translate->name ?? $nav_category->translate->name ?? '' }}<i class="ri-arrow-down-s-fill"></i>
+                            </a>
+                            <ul class="sub-menu shape-none" id="submenu-cat-{{ $nav_category->id }}">
+                                @foreach($nav_category->subcategories as $sub)
+                                <li class="sub-menu--item">
+                                    <a href="{{ route('product.shop', ['categories[]' => $nav_category->id]) }}">
+                                        {{ $sub->front_translate->name ?? $sub->translate->name ?? '' }}
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        @else
+                        <li class="sub-menu--item">
+                            <a href="{{ route('product.shop', ['categories[]' => $nav_category->id]) }}">
+                                {{ $nav_category->front_translate->name ?? $nav_category->translate->name ?? '' }}
+                            </a>
+                        </li>
+                        @endif
+                    @endforeach
                 </ul>
             </li>
-            @else
-                <li class="nav-item">
-                    <a href="{{ route('portfolio', $isGrid ? ['type' => 'grid'] : []) }}" class="nav-link-item">
-                        <span class="menu-item-text active">{{ __('translate.Portfolio') }}</span>
-                    </a>
-                </li>
-            @endif --}}
+            @endif
+
+            <li class="nav-item nav-item-has-children">
+                <a href="#" class="nav-link-item drop-trigger">{{ __('translate.Business Tools') }} <i class="ri-arrow-down-s-fill"></i></a>
+                <ul class="sub-menu" id="submenu-biztools">
+                    @if (($general_setting->invoice_status ?? '1') == '1')
+                    <li class="sub-menu--item">
+                        <a href="{{ route('invoice.create') }}">{{ __('translate.Invoice Generator') }}</a>
+                    </li>
+                    @endif
+                    @if (($general_setting->qr_code_status ?? '1') == '1')
+                    <li class="sub-menu--item">
+                        <a href="{{ route('qrcode.create') }}">{{ __('translate.QR Code Generator') }}</a>
+                    </li>
+                    @endif
+                </ul>
+            </li>
 
             @php
                 $blogType = Modules\GlobalSetting\App\Models\GlobalSetting::where('key', 'blog_type')->first()?->value ?? 'default';
@@ -139,92 +191,34 @@
                 </a>
             </li>
 
-            {{-- @if(config('app.env') === 'DEMO' || $blogType == 'all')
-                <li class="nav-item nav-item-has-children">
-                    <a href="#" class="nav-link-item drop-trigger">{{ __('translate.Blog') }} <i
-                            class="ri-arrow-down-s-fill"></i></a>
-                    <ul class="sub-menu" id="submenu-9">
-                        <li class="sub-menu--item">
-                            <a href="{{ route('blogs') }}">
-                                <span class="menu-item-text {{ !$isGrid ? 'active' : '' }}">{{ __('translate.Blog') }}</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu--item">
-                            <a href="{{ route('blogs', ['type' => 'grid']) }}">
-                                <span class="menu-item-text {{ $isGrid ? 'active' : '' }}">{{ __('translate.Blog Grid') }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @else
-                <li class="nav-item">
-                    <a href="{{ route('blogs', $isGrid ? ['type' => 'grid'] : []) }}" class="nav-link-item">
-                        <span class="menu-item-text active">{{ __('translate.Blog') }}</span>
-                    </a>
-                </li>
-            @endif --}}
-
-            {{-- <li class="nav-item nav-item-has-children">
-                <a href="#" class="nav-link-item drop-trigger">{{ __('translate.Pages') }} <i
-                        class="ri-arrow-down-s-fill"></i></a>
-                <ul class="sub-menu" id="submenu-2">
-                    <li class="sub-menu--item">
-                        <a href="{{ route('about-us') }}">
-                            <span class="menu-item-text">{{ __('translate.About Us') }}</span>
-                        </a>
-                    </li>
-                    <li class="sub-menu--item">
-                        <a href="{{ route('pricing') }}">
-                            <span class="menu-item-text">{{ __('translate.Pricing Plan') }}</span>
-                        </a>
-                    </li>
-
-
-
-                    <li class="sub-menu--item ">
-                        <a href="{{ route('teams') }}" class="drop-trigger">{{ __('translate.Our Teams') }}
-                        </a>
-                    </li>
-                    <li class="sub-menu--item nav-item-has-children">
-                        <a href="#" data-menu-get="h3" class="drop-trigger">{{ __('translate.Utility') }}<i
-                                class="ri-arrow-down-s-fill"></i>
-                        </a>
-                        <ul class="sub-menu shape-none" id="submenu-7">
-                            <li class="sub-menu--item">
-                                <a href="{{ route('faq') }}">
-                                    <span
-                                        class="menu-item-text">{{ __('translate.FAQ') }}</span>
-                                </a>
-                            </li>
-
-                            <li class="sub-menu--item">
-                                <a href="{{ route('testimonials') }}">
-                                    <span class="menu-item-text">{{ __('translate.Testimonials') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    @foreach ($custom_pages as $custom_page)
-
-                    <li class="sub-menu--item ">
-                        <a href="{{ route('custom-page', $custom_page->slug) }}" class="drop-trigger">{{ $custom_page->page_name }}
-                        </a>
-                    </li>
-
-
-                  @endforeach
-
-                </ul>
-            </li> --}}
-
-
-
-
-            {{-- <li class="nav-item">
-                <a class="nav-link-item"
-                   href="{{ route('contact-us') }}">{{ __('translate.Contact') }}</a>
-            </li> --}}
         </ul>
+
+        <div class="mobile-get-in-touch">
+            <a href="{{ route('contact-us') }}" class="mobile-cta-btn">{{ __('translate.Get in Touch') }}</a>
+        </div>
+
+        @php
+            if (auth()->check()) {
+                $mobileCartTotal = \Modules\Ecommerce\Entities\Cart::where('user_id', auth()->id())->count();
+            } else {
+                $mobileCartTotal = \Modules\Ecommerce\Entities\Cart::where('session_id', session()->get('session_id'))->count();
+            }
+        @endphp
+
+        <div class="mobile-commerce-section">
+            <a href="{{ route('cart.cart') }}" class="mobile-commerce-item">
+                <i class="ri-shopping-cart-line"></i>
+                <span class="mobile-commerce-label">{{ __('translate.Cart') }}</span>
+                <span class="mobile-commerce-badge">{{ $mobileCartTotal }}</span>
+            </a>
+            <a href="{{ route('product.shop') }}" class="mobile-commerce-item">
+                <i class="ri-store-2-line"></i>
+                <span class="mobile-commerce-label">{{ __('translate.Shop') }}</span>
+            </a>
+            <a href="{{ route('contact-us') }}" class="mobile-commerce-item">
+                <i class="ri-customer-service-2-line"></i>
+                <span class="mobile-commerce-label">{{ __('translate.Contact') }}</span>
+            </a>
+        </div>
     </nav>
 </div>
