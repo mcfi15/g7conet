@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="d-flex align-items-center" style="gap:12px;flex-wrap:wrap">
                                             <span style="font-size:14px;font-weight:500">{{ __('translate.Daily Limit') }}:</span>
-                                            <input type="number" id="dailyLimitInput" class="form-control form-control-sm" style="width:80px" value="{{ $general_setting->daily_qr_code_limit ?? 5 }}" min="1" max="100">
+                                            <input type="number" id="dailyLimitInput" class="form-control form-control-sm" style="width:120px" value="{{ $general_setting->daily_qr_code_limit ?? 5 }}" min="1" max="100">
                                             <button type="button" id="saveLimitBtn" class="crancy-btn" style="padding:4px 14px;font-size:13px">{{ __('translate.Save') }}</button>
 
                                             <span style="font-size:14px;font-weight:500;margin-left:8px">{{ __('translate.Feature Status') }}:</span>
