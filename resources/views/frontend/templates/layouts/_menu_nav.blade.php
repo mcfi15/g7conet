@@ -215,9 +215,9 @@
                 <i class="ri-store-2-line"></i>
                 <span class="mobile-commerce-label">{{ __('translate.Shop') }}</span>
             </a>
-            <a href="{{ route('contact-us') }}" class="mobile-commerce-item">
+            <a href="{{ route('portfolio') }}" class="mobile-commerce-item">
                 <i class="ri-customer-service-2-line"></i>
-                <span class="mobile-commerce-label">{{ __('translate.Contact') }}</span>
+                <span class="mobile-commerce-label">{{ __('translate.Portfolio') }}</span>
             </a>
         </div>
     </nav>

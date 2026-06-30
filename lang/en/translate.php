@@ -1154,6 +1154,7 @@ return array(
   'Product File (ZIP)' => 'Product File (ZIP)',
   'File Version' => 'File Version',
   'Script' => 'Script',
+  'Register' => 'Register',
   'Cart' => 'Cart',
   'Search here...' => 'Search here...',
   'Copy this URL to your Paystack dashboard under Settings > Webhooks. A webhook endpoint is required for fully automated payment verification' => 'Copy this URL to your Paystack dashboard under Settings > Webhooks. A webhook endpoint is required for fully automated payment verification',
