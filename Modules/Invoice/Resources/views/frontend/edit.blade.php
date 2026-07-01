@@ -89,11 +89,11 @@
                                 <div class="optech-invoice-field mb-0">
                                     <label>{{ __('translate.Currency') }}</label>
                                     <select name="currency" id="currencySelect" style="width:100%;height:44px;padding:8px 14px;border:1px solid var(--light-color2);border-radius:8px;font-size:14px;color:var(--heading-color);background:var(--white-color);border-bottom:1px solid var(--light-color2) !important">
-                                        @forelse($currencies as $c)
-                                            <option value="{{ $c->currency_code }}" {{ $c->currency_code == $invoice->currency ? 'selected' : '' }}>{{ $c->currency_name }} ({{ $c->currency_icon }})</option>
-                                        @empty
-                                            <option value="$" {{ $invoice->currency == '$' ? 'selected' : '' }}>$ (USD)</option>
-                                        @endforelse
+                                         @forelse($currencies as $code => $icon)
+        <option value="{{ $code }}" {{ $code === $invoice->currency ? 'selected' : '' }}>{{ $code }} ({{ $icon }})</option>
+    @empty
+        <option value="USD" {{ $invoice->currency == 'USD' ? 'selected' : '' }}>USD ($)</option>
+    @endforelse
                                     </select>
                                 </div>
                             </div>

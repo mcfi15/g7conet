@@ -248,8 +248,8 @@
             <tr>
                 <td>{{ $item['description'] }}</td>
                 <td class="col-amount">{{ $item['quantity'] }}</td>
-                <td class="col-amount">{{ $general_setting->currency_icon ?? '$' }} {{ number_format($item['unit_price'], 2) }}</td>
-                <td class="col-amount">{{ $general_setting->currency_icon ?? '$' }} {{ number_format($item['total'], 2) }}</td>
+                <td class="col-amount">{{ $invoice->currency_icon }} {{ number_format($item['unit_price'], 2) }}</td>
+                <td class="col-amount">{{ $invoice->currency_icon }} {{ number_format($item['total'], 2) }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -258,23 +258,23 @@
     <div class="summary">
         <div class="summary-row">
             <span>{{ __('translate.Subtotal') }}</span>
-            <span>{{ $general_setting->currency_icon ?? '$' }} {{ number_format($invoice->subtotal, 2) }}</span>
+            <span>{{ $invoice->currency_icon }} {{ number_format($invoice->subtotal, 2) }}</span>
         </div>
         @if ($invoice->tax_percentage > 0)
         <div class="summary-row">
             <span>{{ __('translate.Tax') }} ({{ $invoice->tax_percentage }}%)</span>
-            <span>{{ $general_setting->currency_icon ?? '$' }} {{ number_format($invoice->tax_amount, 2) }}</span>
+            <span>{{ $invoice->currency_icon }} {{ number_format($invoice->tax_amount, 2) }}</span>
         </div>
         @endif
         @if ($invoice->discount_amount > 0)
         <div class="summary-row">
             <span>{{ __('translate.Discount') }}</span>
-            <span>-{{ $general_setting->currency_icon ?? '$' }} {{ number_format($invoice->discount_amount, 2) }}</span>
+            <span>-{{ $invoice->currency_icon }} {{ number_format($invoice->discount_amount, 2) }}</span>
         </div>
         @endif
         <div class="summary-row total">
             <span>{{ __('translate.Total Due') }}</span>
-            <span>{{ $general_setting->currency_icon ?? '$' }} {{ number_format($invoice->total, 2) }}</span>
+            <span>{{ $invoice->currency_icon }} {{ number_format($invoice->total, 2) }}</span>
         </div>
     </div>
 

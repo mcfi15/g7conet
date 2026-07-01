@@ -54,7 +54,7 @@
                                         <tr class="odd">
                                             <td><strong>{{ $invoice->invoice_number }}</strong></td>
                                             <td>{{ $invoice->client_name }}</td>
-                                            <td>{{ number_format($invoice->total, 2) }} {{ $general_setting->currency_icon ?? '$' }}</td>
+                                            <td>{{ $invoice->currency_icon }} {{ number_format($invoice->total, 2) }}</td>
                                             <td>{{ $invoice->created_at->format('d M Y') }}</td>
                                             <td>
                                                 @if ($invoice->status == 'enable')

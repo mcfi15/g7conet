@@ -63,6 +63,23 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-3">
+                                <div class="col-lg-6">
+                                    <div class="crancy__item-box">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="crancy__item-label">{{ __('translate.Currency') }}</label>
+                                                <select name="currency" id="currencySelect" class="crancy__item-input form-control">
+                                                    @foreach ($currencies as $c)
+                                                        <option value="{{ $c->currency_code }}" {{ ($invoice->currency ?? 'USD') == $c->currency_code ? 'selected' : '' }}>{{ $c->currency_name }} ({{ $c->currency_icon }})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="crancy__item-box mt-4">
                                 <div class="d-flex items-center justify-between flex-wrap" style="gap:10px">
                                     <h4 class="crancy-product-card__title mb-0">{{ __('translate.Line Items') }}</h4>
@@ -110,7 +127,7 @@
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" class="text-end">{{ __('translate.Discount') }} ({{ $general_setting->currency_icon ?? '$' }})</td>
+                                                <td colspan="4" class="text-end">{{ __('translate.Discount') }} (<span id="discountCurrency">{{ $invoice->currency_icon ?? '$' }}</span>)</td>
                                                 <td>
                                                     <input type="number" name="discount_amount" id="discountAmount" class="form-control form-control-sm" style="width:100px;display:inline" step="0.01" min="0" value="{{ old('discount_amount', $invoice->discount_amount ?? 0) }}">
                                                 </td>
@@ -151,7 +168,24 @@
 "use strict";
 
 let itemIndex = 0;
-let currency = "{{ $invoice->currency_icon ?? $general_setting->currency_icon ?? '$' }}";
+let currency = "{{ $invoice->currency_icon ?? '$' }}";
+
+function getCurrencyIcon(code) {
+    const map = {
+        @foreach ($currencies as $c)
+            '{{ $c->currency_code }}': '{{ $c->currency_icon }}',
+        @endforeach
+    };
+    return map[code] || '$';
+}
+
+document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'currencySelect') {
+        currency = getCurrencyIcon(e.target.value);
+        document.getElementById('discountCurrency').textContent = currency;
+        recalc();
+    }
+});
 
 const oldItems = @json(old('items', $invoice->items ?? []));
 

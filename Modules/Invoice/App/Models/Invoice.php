@@ -37,19 +37,58 @@ class Invoice extends Model
         return $user && $this->user_id === $user->id;
     }
 
+    /**
+     * Master list of supported currencies: code => symbol.
+     * This is the single source of truth for the whole Invoice module.
+     */
+    public static function currencyList(): array
+    {
+        return [
+            'AED' => 'د.إ', 'AFN' => '؋', 'ALL' => 'L', 'AMD' => '֏',
+            'ANG' => 'ƒ', 'AOA' => 'Kz', 'ARS' => '$', 'AUD' => 'A$',
+            'AWG' => 'ƒ', 'AZN' => '₼', 'BAM' => 'KM', 'BBD' => 'Bds$',
+            'BDT' => '৳', 'BGN' => 'лв', 'BHD' => '.د.ب', 'BIF' => 'FBu',
+            'BMD' => 'BD$', 'BND' => 'B$', 'BOB' => 'Bs.', 'BRL' => 'R$',
+            'BSD' => 'B$', 'BTN' => 'Nu.', 'BWP' => 'P', 'BYN' => 'Br',
+            'BZD' => 'BZ$', 'CAD' => 'C$', 'CDF' => 'FC', 'CHF' => 'Fr',
+            'CLP' => '$', 'CNY' => '¥', 'COP' => '$', 'CRC' => '₡',
+            'CUP' => '$', 'CVE' => '$', 'CZK' => 'Kč', 'DJF' => 'Fdj',
+            'DKK' => 'kr', 'DOP' => 'RD$', 'DZD' => 'د.ج', 'EGP' => '£',
+            'ERN' => 'Nfk', 'ETB' => 'Br', 'EUR' => '€', 'FJD' => 'FJ$',
+            'FKP' => '£', 'GBP' => '£', 'GEL' => '₾', 'GHS' => '₵',
+            'GIP' => '£', 'GMD' => 'D', 'GNF' => 'FG', 'GTQ' => 'Q',
+            'GYD' => 'G$', 'HKD' => 'HK$', 'HNL' => 'L', 'HTG' => 'G',
+            'HUF' => 'Ft', 'IDR' => 'Rp', 'ILS' => '₪', 'INR' => '₹',
+            'IQD' => 'ع.د', 'IRR' => '﷼', 'ISK' => 'kr', 'JMD' => 'J$',
+            'JOD' => 'د.ا', 'JPY' => '¥', 'KES' => 'KSh', 'KGS' => 'с',
+            'KHR' => '៛', 'KMF' => 'CF', 'KPW' => '₩', 'KRW' => '₩',
+            'KWD' => 'د.ك', 'KYD' => 'CI$', 'KZT' => '₸', 'LAK' => '₭',
+            'LBP' => 'ل.ل', 'LKR' => 'Rs', 'LRD' => 'L$', 'LSL' => 'L',
+            'LYD' => 'ل.د', 'MAD' => 'د.م.', 'MDL' => 'L', 'MGA' => 'Ar',
+            'MKD' => 'ден', 'MMK' => 'K', 'MNT' => '₮', 'MOP' => 'MOP$',
+            'MRU' => 'UM', 'MUR' => '₨', 'MVR' => 'Rf', 'MWK' => 'MK',
+            'MXN' => 'MX$', 'MYR' => 'RM', 'MZN' => 'MT', 'NAD' => 'N$',
+            'NGN' => '₦', 'NIO' => 'C$', 'NOK' => 'kr', 'NPR' => 'Rs',
+            'NZD' => 'NZ$', 'OMR' => 'ر.ع.', 'PAB' => 'B/.', 'PEN' => 'S/',
+            'PGK' => 'K', 'PHP' => '₱', 'PKR' => '₨', 'PLN' => 'zł',
+            'PYG' => '₲', 'QAR' => 'ر.ق', 'RON' => 'lei', 'RSD' => 'дин',
+            'RUB' => '₽', 'RWF' => 'FRw', 'SAR' => 'ر.س', 'SBD' => 'SI$',
+            'SCR' => '₨', 'SDG' => 'ج.س.', 'SEK' => 'kr', 'SGD' => 'S$',
+            'SHP' => '£', 'SLE' => 'Le', 'SOS' => 'Sh', 'SRD' => '$',
+            'SSP' => '£', 'STN' => 'Db', 'SYP' => '£', 'SZL' => 'L',
+            'THB' => '฿', 'TJS' => 'ЅМ', 'TMT' => 'm', 'TND' => 'د.ت',
+            'TOP' => 'T$', 'TRY' => '₺', 'TTD' => 'TT$', 'TWD' => 'NT$',
+            'TZS' => 'TSh', 'UAH' => '₴', 'UGX' => 'USh', 'USD' => '$',
+            'UYU' => '$U', 'UZS' => 'soʻm', 'VES' => 'Bs.', 'VND' => '₫',
+            'VUV' => 'VT', 'WST' => 'WS$', 'XAF' => 'FCFA', 'XCD' => 'EC$',
+            'XOF' => 'CFA', 'XPF' => '₣', 'YER' => '﷼', 'ZAR' => 'R',
+            'ZMW' => 'ZK', 'ZWL' => 'Z$',
+        ];
+    }
+
     public function getCurrencyIconAttribute(): string
     {
-        $currencies = [
-            'USD' => '$', 'EUR' => '€', 'GBP' => '£', 'JPY' => '¥',
-            'CNY' => '¥', 'INR' => '₹', 'BRL' => 'R$', 'CAD' => 'C$',
-            'AUD' => 'A$', 'CHF' => 'Fr', 'SEK' => 'kr', 'NOK' => 'kr',
-            'DKK' => 'kr', 'PLN' => 'zł', 'TRY' => '₺', 'MXN' => 'MX$',
-            'KRW' => '₩', 'NGN' => '₦', 'BDT' => '৳', 'PKR' => '₨',
-            'LKR' => 'Rs', 'NPR' => 'Rs', 'MYR' => 'RM', 'PHP' => '₱',
-            'SGD' => 'S$', 'HKD' => 'HK$', 'THB' => '฿', 'IDR' => 'Rp',
-            'VND' => '₫', 'RUB' => '₽', 'ZAR' => 'R', 'KES' => 'KSh',
-        ];
-        return $currencies[$this->currency] ?? ($this->currency ?? '$');
+        return self::currencyList()[$this->currency] ?? '$';
     }
 
     public static function generateInvoiceNumber(): string

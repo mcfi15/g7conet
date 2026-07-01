@@ -41,17 +41,15 @@ class InvoiceController extends Controller
 
         $pageTitle = trans('translate.Invoice Generator');
 
-        $currencyModel = app()->bound('Modules\Currency\App\Models\Currency')
-            ? app('Modules\Currency\App\Models\Currency')
-            : null;
-        $currencies = $currencyModel ? $currencyModel::orderBy('currency_name')->get() : collect();
+        $currencies = Invoice::currencyList();
 
         return view('invoice::frontend.create', compact('pageTitle', 'currencies', 'dailyLimit', 'limitReached'));
     }
 
     public function create()
     {
-        return view('invoice::create');
+        $currencies = \Modules\Currency\App\Models\Currency::where('status', 'active')->get();
+        return view('invoice::create', compact('currencies'));
     }
 
     public function store(InvoiceRequest $request)
@@ -163,10 +161,7 @@ class InvoiceController extends Controller
             abort(403);
         }
 
-        $currencyModel = app()->bound('Modules\Currency\App\Models\Currency')
-            ? app('Modules\Currency\App\Models\Currency')
-            : null;
-        $currencies = $currencyModel ? $currencyModel::orderBy('currency_name')->get() : collect();
+        $currencies = Invoice::currencyList();
 
         $pageTitle = trans('translate.Edit Invoice');
         return view('invoice::frontend.edit', compact('invoice', 'pageTitle', 'currencies'));
